@@ -4,12 +4,12 @@
 
 int pantailaHasi();
 
+SDL_Window *Ventana = NULL;
+SDL_Surface *Superficie = NULL;
+SDL_Renderer *gRenderer;
+int fin = 0;
 int pantailaHasi()
 {
-    SDL_Window *Ventana = NULL;
-    SDL_Surface *Superficie = NULL;
-    SDL_Renderer *gRenderer;
-    int fin = 0;
 
     // Inicializa el subsistema de Video
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
