@@ -8,7 +8,6 @@ SDL_Window *Ventana = NULL;
 SDL_Surface *Superficie = NULL;
 SDL_Renderer *gRenderer;
 int fin = 0;
-int a = 1;
 int pantailaHasi()
 {
 
