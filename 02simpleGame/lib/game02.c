@@ -7,6 +7,7 @@ int pantailaHasi();
 SDL_Window *Ventana = NULL;
 SDL_Surface *Superficie = NULL;
 SDL_Renderer *gRenderer;
+SDL_Rect src, dst;
 int fin = 0;
 int screenWidth;
 int screenHeight;
@@ -29,8 +30,23 @@ int pantailaHasi()
     SDL_RenderFillRect(gRenderer, &background);
 
     SDL_RenderDrawLine(gRenderer, 20, 20, 70, 70);
-    SDL_RenderPresent(gRenderer);
+
+    // testua
     TTF_Init();
+    SDL_Texture *texture;
+    TTF_Font *letra = TTF_OpenFont("../Debug/OpenSans-Regular.ttf", 28);
+    SDL_Color kolorea = {0, 0, 0};
+    SDL_Surface *testuarenAzalera = TTF_RenderText_Solid(letra, "FreshKeep", kolorea);
+    texture = SDL_CreateTextureFromSurface(gRenderer, testuarenAzalera);
+    src.x = 0;
+    dst.x = 0;
+    src.y = 0;
+    dst.y = 0;
+    src.w = dst.w = testuarenAzalera->w;
+    src.h = dst.h = testuarenAzalera->h;
+    SDL_RenderCopy(gRenderer, texture, &src, &dst);
+
+    SDL_RenderPresent(gRenderer);
 
     while (!fin)
     {
