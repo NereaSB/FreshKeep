@@ -24,13 +24,18 @@ int pantailaHasi()
     {
         // Se crea la ventana principal
         Ventana = SDL_CreateWindow("FreshKeep", 20, 20, 1980, 920, SDL_WINDOW_RESIZABLE);
+        SDL_SetWindowFullscreen(Ventana, SDL_WINDOW_FULLSCREEN_DESKTOP);
     }
     gRenderer = SDL_CreateRenderer(Ventana, -1, SDL_RENDERER_ACCELERATED);
+    SDL_GetWindowSize(Ventana, &screenWidth, &screenHeight);
+    SDL_SetWindowSize(Ventana, screenWidth, screenHeight);
     SDL_SetRenderDrawColor(gRenderer, 225, 255, 198, SDL_ALPHA_OPAQUE);
     SDL_Rect background = {0, 0, 1980, 920};
     SDL_RenderFillRect(gRenderer, &background);
 
     SDL_RenderDrawLine(gRenderer, 20, 20, 70, 70);
+    SDL_Color kolor = {0x00, 0x00, 0x00};
+    tituluaIdatzi("FreshKeep", kolor, Ventana);
 
     // testua
     TTF_Init();
@@ -59,7 +64,7 @@ int pantailaHasi()
             case SDL_KEYDOWN:                              // Si es una pulsación de tecla
                 if (ebentua.key.keysym.sym == SDLK_ESCAPE) // Si es la tecla Escape
                 {
-                    fin = 1; // Ponemos fin a true para salir del bucle
+                    SDL_SetWindowFullscreen(Ventana, 0); // Ponemos fin a true para salir del bucle
                 }
                 break;
             case SDL_QUIT: // Si hemos pulsado el cierre de la ventana
@@ -82,7 +87,8 @@ int pantailaHasi()
                     SDL_RenderDrawLine(gRenderer, 20, 20, 70, 70);
                     SDL_RenderPresent(gRenderer);
                     SDL_Color kolor = {0x00, 0x00, 0x00};
-                    idatzi(gRenderer, 40, 40, "FreshKeep", kolor, 40, "OpenSans-Regular.ttf");
+                    // idatzi(gRenderer, 40, 40, "FreshKeep", kolor, 40, "OpenSans-Regular.ttf");
+                    tituluaIdatzi("FreshKeep", kolor, Ventana);
                 }
                 break;
             }
