@@ -1,3 +1,4 @@
+#include "text.h"
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <stdio.h>
@@ -45,7 +46,6 @@ int pantailaHasi()
     src.w = dst.w = testuarenAzalera->w;
     src.h = dst.h = testuarenAzalera->h;
     SDL_RenderCopy(gRenderer, texture, &src, &dst);
-
     SDL_RenderPresent(gRenderer);
 
     while (!fin)
@@ -81,6 +81,8 @@ int pantailaHasi()
 
                     SDL_RenderDrawLine(gRenderer, 20, 20, 70, 70);
                     SDL_RenderPresent(gRenderer);
+                    SDL_Color kolor = {0x00, 0x00, 0x00};
+                    idatzi(gRenderer, 40, 40, "FreshKeep", kolor, 40, "OpenSans-Regular.ttf");
                 }
                 break;
             }

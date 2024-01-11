@@ -9,9 +9,9 @@
 
 TTF_Font *font = 0;
 
-void textuaGaitu(void)
+void textuaGaitu(char *letra, int tamaina)
 {
-    font = TTF_OpenFontIndex("OpenSans-Regular.ttf", 16, 0);
+    font = TTF_OpenFontIndex("OpenSans-Regular.ttf", tamaina, 0);
     if (!font)
     {
         printf("TTF_OpenFontIndex: %s\n", TTF_GetError());
@@ -19,11 +19,12 @@ void textuaGaitu(void)
     }
 }
 
-void textuaIdatzi(int x, int y, char *str)
+void textuaIdatzi(int x, int y, char *str, SDL_Color textColor)
 {
+
     SDL_Surface *textSurface;
     SDL_Texture *mTexture;
-    SDL_Color textColor = {0XFF, 0XFF, 0XFF};
+    // SDL_Color textColor = {0X00, 0X00, 0X00};
     SDL_Rect src, dst;
     SDL_Renderer *gRenderer;
 
@@ -52,4 +53,11 @@ void textuaDesgaitu(void)
         TTF_CloseFont(font);
     }
     font = 0;
+}
+
+void idatzi(SDL_Renderer *gRenderer, int x, int y, char *testua, SDL_Color kolorea, int tamaina, char *letra)
+{
+    textuaGaitu(letra, tamaina);
+    textuaIdatzi(x, y, testua, kolorea);
+    SDL_RenderPresent(gRenderer);
 }
