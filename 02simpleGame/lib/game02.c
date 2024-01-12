@@ -37,22 +37,6 @@ int pantailaHasi()
     SDL_Color kolor = {0x00, 0x00, 0x00};
     tituluaIdatzi("FreshKeep", kolor, Ventana);
 
-    // testua
-    TTF_Init();
-    SDL_Texture *texture;
-    TTF_Font *letra = TTF_OpenFont("../Debug/OpenSans-Regular.ttf", 28);
-    SDL_Color kolorea = {0, 0, 0};
-    SDL_Surface *testuarenAzalera = TTF_RenderText_Solid(letra, "FreshKeep", kolorea);
-    texture = SDL_CreateTextureFromSurface(gRenderer, testuarenAzalera);
-    src.x = 0;
-    dst.x = 0;
-    src.y = 0;
-    dst.y = 0;
-    src.w = dst.w = testuarenAzalera->w;
-    src.h = dst.h = testuarenAzalera->h;
-    SDL_RenderCopy(gRenderer, texture, &src, &dst);
-    SDL_RenderPresent(gRenderer);
-
     while (!fin)
     {
         SDL_Event ebentua; // Aquí almacenaremos los eventos que vamos sacando de la cola
