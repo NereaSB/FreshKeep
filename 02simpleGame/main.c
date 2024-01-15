@@ -6,7 +6,7 @@
 #include <stdio.h>
 
 int pantailaHasi();
-
+/*Kaixo*/
 int SDL_main(int argc, char *str[])
 {
     pantailaHasi();
