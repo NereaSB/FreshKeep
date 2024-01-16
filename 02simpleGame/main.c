@@ -9,7 +9,7 @@
 
 #include <SDL.h>
 #include <stdio.h>
-// kaixo
+
 int pantailaHasi();
 int Irudiakjarri();
 
