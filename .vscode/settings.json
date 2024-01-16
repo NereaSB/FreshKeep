@@ -1,0 +1,9 @@
+{
+  "editor.formatOnSave": true,
+  "C_Cpp.clang_format_fallbackStyle": "{BasedOnStyle: Microsoft, InsertBraces: true}",
+  "files.associations": {
+    "sdl.h": "c",
+    "stdio.h": "c",
+    "graphics.h": "c"
+  }
+}
