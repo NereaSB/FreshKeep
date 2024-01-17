@@ -11,12 +11,13 @@
 #include <stdio.h>
 
 int pantailaHasi();
-int Irudiakjarri();
+int Irudiakjarri(int zeregin);
+void refrescarpagina(int zeregin);
 
 int SDL_main(int argc, char *str[])
 {
     pantailaHasi();
-    Irudiakjarri();
+    Irudiakjarri(0);
 
     return 0;
 }
