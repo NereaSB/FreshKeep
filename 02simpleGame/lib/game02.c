@@ -3,6 +3,7 @@
 #include "graphics.h"
 #include "ikono.h"
 #include "imagen.h"
+#include "input.h"
 #include "soinua.h"
 #include "text.h"
 #include <stdio.h>
@@ -141,6 +142,7 @@ int pantailaHasi()
                 if (ebentua.window.event == SDL_WINDOWEVENT_EXPOSED)
                 {
                     refrescarpagina(0);
+                    inputMarraztu(gRenderer);
                 }
                 break;
             }
