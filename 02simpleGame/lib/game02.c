@@ -19,6 +19,8 @@
 #define JOKOA_SOUND "./sound/Audio fondo.mp3"
 #define LOGO_ESCRITORIO_IMG "./img/icono.png"
 #define BERDEILUNA "./img/MugitzenDena.bmp"
+#define SOINUAPIZTUTA "./img/soinuapiztu.bmp"
+#define SOINUAITZALITA "./img/soinuaitzali.bmp"
 
 #include <SDL.h>
 #include <SDL_ttf.h>
@@ -34,6 +36,10 @@ SDL_Rect src, dst;
 int fin = 0, id;
 int screenWidth;
 int screenHeight;
+int kopuru, kop = 1, i;
+int soinuapiztutadago = 1;
+int lehenengoaldia = 1;
+int menuairekita = 0;
 
 int pantailaHasi()
 {
@@ -59,6 +65,8 @@ int pantailaHasi()
     SDL_RenderDrawLine(gRenderer, 20, 20, 70, 70);
     SDL_Color kolor = {0x00, 0x00, 0x00};
 
+    kopuru = Irudiakjarri();
+
     // soinua
     audioInit();
     loadTheMusic(JOKOA_SOUND);
@@ -79,6 +87,40 @@ int pantailaHasi()
                 if (ebentua.key.keysym.sym == SDLK_ESCAPE) // Si es la tecla Escape
                 {
                     SDL_SetWindowFullscreen(Ventana, 0); // Ponemos fin a true para salir del bucle
+                }
+                else if (ebentua.key.keysym.sym == TECLA_0)
+                {
+                    if (!menuairekita)
+                    {
+                        menuairekita = 1;
+                        /*tics = SDL_GetTicks();*/
+                        irudiaMugitubateskuinera(0);
+                        irudiaMugitubateskuinera(1);
+                    }
+                    else if (menuairekita)
+                    {
+                        menuairekita = 0;
+                        /*tics = SDL_GetTicks();*/
+                        irudiaMugitubatezkerrera(0);
+                        irudiaMugitubatezkerrera(1);
+                    }
+                }
+                else if (ebentua.key.keysym.sym == TECLA_1)
+                {
+                    if (soinuapiztutadago)
+                    {
+                        soinuapiztutadago = 0;
+                        Mix_PauseMusic();
+                        irudiaMugitu(3, 1150, 1);
+                        irudiaMugitu(2, 3000, 0);
+                    }
+                    else
+                    {
+                        soinuapiztutadago = 1;
+                        Mix_ResumeMusic();
+                        irudiaMugitu(2, 1150, 1);
+                        irudiaMugitu(3, 3000, 0);
+                    }
                 }
                 break;
 
@@ -128,12 +170,40 @@ int Irudiakjarri()
     irudiaMugitu(id, 0, 435);
     id = irudiaKargatu(NOR_GARA_IMG); // 6
     irudiaMugitu(id, 0, 510);*/
-    id = irudiaKargatu(HOSTOA_IMG);
-    irudiaMugitu(id, 6, 1); /* //252,30
-     id = irudiaKargatu(FONDO_ABAJO_IMG);
-     irudiaMugitu(id, 0, 599);
-     id = irudiaKargatu(FONDO_ARRIBA_IMG);
-     irudiaMugitu(id, 0, 0);*/
+
+    if (lehenengoaldia)
+    {
+        id = irudiaKargatu(BERDEILUNA);     // 0
+        id = irudiaKargatu(HOSTOA_IMG);     // 1
+        id = irudiaKargatu(SOINUAPIZTUTA);  // 2
+        id = irudiaKargatu(SOINUAITZALITA); // 3
+        lehenengoaldia = 0;
+    }
+    if (!menuairekita)
+    {
+        irudiaMugitu(0, -327, 0);
+        irudiaMugitu(1, 6, 1);
+    }
+    else if (menuairekita)
+    {
+        irudiaMugitu(0, -152, 0);
+        irudiaMugitu(1, 181, 1);
+    }
+    if (soinuapiztutadago)
+    {
+        irudiaMugitu(2, 1150, 3);
+        irudiaMugitu(3, -1150, 3);
+    }
+    else if (!soinuapiztutadago)
+    {
+        irudiaMugitu(2, 1150, 3);
+        irudiaMugitu(3 - 1, -1150, 3);
+    }
+    /* //252,30
+    id = irudiaKargatu(FONDO_ABAJO_IMG);
+    irudiaMugitu(id, 0, 599);
+    id = irudiaKargatu(FONDO_ARRIBA_IMG);
+    irudiaMugitu(id, 0, 0);*/
     irudiakMarraztu();
     pantailaBerriztu();
     return id;
