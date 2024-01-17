@@ -126,7 +126,7 @@ int pantailaHasi()
                     // idatzi(gRenderer, 40, 40, "FreshKeep", kolor, 40, "OpenSans-Regular.ttf");
                     tituluaIdatzi("FRESHKEEP", kolor, Ventana, "(Titulo)ChauPhilomeneOne-Regular.ttf");
                     Irudiakjarri();
-                    inputMarraztu(gRenderer);
+                    // inputMarraztu(gRenderer);
                 }
                 break;
             }
