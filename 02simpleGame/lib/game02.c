@@ -28,6 +28,7 @@
 
 int pantailaHasi();
 int Irudiakjarri();
+void refrescarpagina();
 
 SDL_Window *Ventana = NULL;
 SDL_Surface *Superficie = NULL;
@@ -96,6 +97,7 @@ int pantailaHasi()
                         /*tics = SDL_GetTicks();*/
                         irudiaMugitubateskuinera(0);
                         irudiaMugitubateskuinera(1);
+                        refrescarpagina();
                     }
                     else if (menuairekita)
                     {
@@ -103,6 +105,7 @@ int pantailaHasi()
                         /*tics = SDL_GetTicks();*/
                         irudiaMugitubatezkerrera(0);
                         irudiaMugitubatezkerrera(1);
+                        refrescarpagina();
                     }
                 }
                 else if (ebentua.key.keysym.sym == TECLA_1)
@@ -113,6 +116,7 @@ int pantailaHasi()
                         Mix_PauseMusic();
                         irudiaMugitu(3, 1150, 1);
                         irudiaMugitu(2, 3000, 0);
+                        refrescarpagina();
                     }
                     else
                     {
@@ -120,6 +124,7 @@ int pantailaHasi()
                         Mix_ResumeMusic();
                         irudiaMugitu(2, 1150, 1);
                         irudiaMugitu(3, 3000, 0);
+                        refrescarpagina();
                     }
                 }
                 break;
@@ -134,19 +139,7 @@ int pantailaHasi()
                 // SDL_DisplayMode mode;
                 if (ebentua.window.event == SDL_WINDOWEVENT_EXPOSED)
                 {
-                    SDL_GetWindowSize(Ventana, &screenWidth, &screenHeight);
-                    SDL_Log("h: %d, w: %d", screenHeight, screenWidth);
-                    SDL_SetWindowSize(Ventana, screenWidth, screenHeight);
-                    SDL_SetRenderDrawColor(gRenderer, 225, 255, 198, SDL_ALPHA_OPAQUE);
-                    SDL_Rect background = {0, 0, screenWidth, screenHeight};
-                    SDL_RenderFillRect(gRenderer, &background);
-
-                    SDL_RenderDrawLine(gRenderer, 20, 20, 70, 70);
-                    SDL_RenderPresent(gRenderer);
-                    SDL_Color kolor = {0x00, 0x00, 0x00};
-                    // idatzi(gRenderer, 40, 40, "FreshKeep", kolor, 40, "OpenSans-Regular.ttf");
-                    tituluaIdatzi("FRESHKEEP", kolor, Ventana, "(Titulo)ChauPhilomeneOne-Regular.ttf");
-                    Irudiakjarri();
+                    refrescarpagina();
                 }
                 break;
             }
@@ -207,6 +200,22 @@ int Irudiakjarri()
     irudiakMarraztu();
     pantailaBerriztu();
     return id;
+}
+void refrescarpagina()
+{
+    SDL_GetWindowSize(Ventana, &screenWidth, &screenHeight);
+    SDL_Log("h: %d, w: %d", screenHeight, screenWidth);
+    SDL_SetWindowSize(Ventana, screenWidth, screenHeight);
+    SDL_SetRenderDrawColor(gRenderer, 225, 255, 198, SDL_ALPHA_OPAQUE);
+    SDL_Rect background = {0, 0, screenWidth, screenHeight};
+    SDL_RenderFillRect(gRenderer, &background);
+
+    SDL_RenderDrawLine(gRenderer, 20, 20, 70, 70);
+    SDL_RenderPresent(gRenderer);
+    SDL_Color kolor = {0x00, 0x00, 0x00};
+    // idatzi(gRenderer, 40, 40, "FreshKeep", kolor, 40, "OpenSans-Regular.ttf");
+    tituluaIdatzi("FRESHKEEP", kolor, Ventana, "(Titulo)ChauPhilomeneOne-Regular.ttf");
+    Irudiakjarri();
 }
 
 /* if (Ventana == NULL)
