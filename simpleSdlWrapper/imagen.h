@@ -10,5 +10,6 @@ void irudiakMarraztu(void);
 void irudiaKendu(int id);
 void irudiaMugitubateskuinera(int numImg);
 void irudiaMugitubatezkerrera(int numImg);
+void biirudiakMarraztu(int lehenengoa, int bigarrena);
 
 #endif

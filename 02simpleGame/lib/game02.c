@@ -113,19 +113,20 @@ int pantailaHasi()
                 {
                     if (soinuapiztutadago)
                     {
-                        soinuapiztutadago = 0;
+
                         Mix_PauseMusic();
                         irudiaMugitu(3, 1150, 1);
                         irudiaMugitu(2, 3000, 0);
                         refrescarpagina(2);
+                        soinuapiztutadago = 0;
                     }
                     else
                     {
-                        soinuapiztutadago = 1;
                         Mix_ResumeMusic();
                         irudiaMugitu(2, 1150, 1);
                         irudiaMugitu(3, 3000, 0);
                         refrescarpagina(2);
+                        soinuapiztutadago = 1;
                     }
                 }
                 break;
@@ -174,7 +175,7 @@ int Irudiakjarri(int zeregin)
         irudiaMugitu(0, -327, 0);
         irudiaMugitu(1, 6, 1);
         irudiaMugitu(2, 1150, 3);
-        irudiaMugitu(3, -1150, 3);
+        irudiaMugitu(3, -1150, 5);
         lehenengoaldia = 0;
     }
     if ((zeregin == 0) || (zeregin == 1))
@@ -194,13 +195,13 @@ int Irudiakjarri(int zeregin)
     {
         if (soinuapiztutadago)
         {
-            irudiaMugitu(2, 1150, 3);
-            irudiaMugitu(3, -1150, 3);
+            irudiaMugitu(2, -1150, 3);
+            irudiaMugitu(3, 1150, 3);
         }
         else if (!soinuapiztutadago)
         {
             irudiaMugitu(2, 1150, 3);
-            irudiaMugitu(3 - 1, -1150, 3);
+            irudiaMugitu(3, -1150, 3);
         }
     }
     /* //252,30

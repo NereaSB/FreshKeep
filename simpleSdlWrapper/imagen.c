@@ -76,6 +76,12 @@ void irudiakMarraztu(void)
     }
 }
 
+void biirudiakMarraztu(int lehenengoa, int bigarrena)
+{
+    irudiaMarraztu(irudiak[lehenengoa].texture, &irudiak[lehenengoa].dest);
+    irudiaMarraztu(irudiak[bigarrena].texture, &irudiak[bigarrena].dest);
+}
+
 void irudiaKendu(int id)
 {
     int i = 0, pos = 0;
