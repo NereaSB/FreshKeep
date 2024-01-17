@@ -103,3 +103,21 @@ int irudiarenPosizioaAurkitu(int id)
     }
     return -1;
 }
+void irudiaMugitubateskuinera(int numImg)
+{
+
+    int id = 0;
+
+    id = irudiarenPosizioaAurkitu(numImg);
+
+    irudiak[id].dest.x += 175;
+}
+void irudiaMugitubatezkerrera(int numImg)
+{
+
+    int id = 0;
+
+    id = irudiarenPosizioaAurkitu(numImg);
+
+    irudiak[id].dest.x -= 175;
+}

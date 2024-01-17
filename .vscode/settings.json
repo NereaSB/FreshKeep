@@ -4,6 +4,7 @@
   "files.associations": {
     "sdl.h": "c",
     "stdio.h": "c",
-    "graphics.h": "c"
+    "graphics.h": "c",
+    "text.h": "c"
   }
 }
