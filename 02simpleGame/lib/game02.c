@@ -142,7 +142,7 @@ int pantailaHasi()
                 if (ebentua.window.event == SDL_WINDOWEVENT_EXPOSED)
                 {
                     refrescarpagina(0);
-                    inputMarraztu(gRenderer);
+                    // inputMarraztu(gRenderer);
                 }
                 break;
             }
