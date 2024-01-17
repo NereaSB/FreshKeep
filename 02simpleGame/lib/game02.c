@@ -3,6 +3,7 @@
 #include "graphics.h"
 #include "ikono.h"
 #include "imagen.h"
+#include "input.h"
 #include "soinua.h"
 #include "text.h"
 #include <stdio.h>
@@ -19,8 +20,6 @@
 #define JOKOA_SOUND "./sound/Audio fondo.mp3"
 #define LOGO_ESCRITORIO_IMG "./img/icono.png"
 #define BERDEILUNA "./img/MugitzenDena.bmp"
-#define SOINUAPIZTUTA "./img/soinuapiztu.bmp"
-#define SOINUAITZALITA "./img/soinuaitzali.bmp"
 
 #include <SDL.h>
 #include <SDL_ttf.h>
@@ -28,7 +27,6 @@
 
 int pantailaHasi();
 int Irudiakjarri();
-void refrescarpagina();
 
 SDL_Window *Ventana = NULL;
 SDL_Surface *Superficie = NULL;
@@ -37,10 +35,6 @@ SDL_Rect src, dst;
 int fin = 0, id;
 int screenWidth;
 int screenHeight;
-int kopuru, kop = 1, i;
-int soinuapiztutadago = 1;
-int lehenengoaldia = 1;
-int menuairekita = 0;
 
 int pantailaHasi()
 {
@@ -63,10 +57,12 @@ int pantailaHasi()
     SDL_Rect background = {0, 0, 1980, 920};
     SDL_RenderFillRect(gRenderer, &background);
 
+    SDL_Rect inputBox = {30, 30, 200, 30};
+    SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
+    SDL_RenderDrawRect(gRenderer, &inputBox);
+
     SDL_RenderDrawLine(gRenderer, 20, 20, 70, 70);
     SDL_Color kolor = {0x00, 0x00, 0x00};
-
-    kopuru = Irudiakjarri();
 
     // soinua
     audioInit();
@@ -87,45 +83,7 @@ int pantailaHasi()
             case SDL_KEYDOWN:                              // Si es una pulsación de tecla
                 if (ebentua.key.keysym.sym == SDLK_ESCAPE) // Si es la tecla Escape
                 {
-                    SDL_SetWindowFullscreen(Ventana, 0); // Ponemos fin a true para salir del bucle
-                }
-                else if (ebentua.key.keysym.sym == TECLA_0)
-                {
-                    if (!menuairekita)
-                    {
-                        menuairekita = 1;
-                        /*tics = SDL_GetTicks();*/
-                        irudiaMugitubateskuinera(0);
-                        irudiaMugitubateskuinera(1);
-                        refrescarpagina();
-                    }
-                    else if (menuairekita)
-                    {
-                        menuairekita = 0;
-                        /*tics = SDL_GetTicks();*/
-                        irudiaMugitubatezkerrera(0);
-                        irudiaMugitubatezkerrera(1);
-                        refrescarpagina();
-                    }
-                }
-                else if (ebentua.key.keysym.sym == TECLA_1)
-                {
-                    if (soinuapiztutadago)
-                    {
-                        soinuapiztutadago = 0;
-                        Mix_PauseMusic();
-                        irudiaMugitu(3, 1150, 1);
-                        irudiaMugitu(2, 3000, 0);
-                        refrescarpagina();
-                    }
-                    else
-                    {
-                        soinuapiztutadago = 1;
-                        Mix_ResumeMusic();
-                        irudiaMugitu(2, 1150, 1);
-                        irudiaMugitu(3, 3000, 0);
-                        refrescarpagina();
-                    }
+                    SDL_SetWindowFullscreen(Ventana, 0);
                 }
                 break;
 
@@ -135,11 +93,40 @@ int pantailaHasi()
                 SDL_Quit(); // También acabamos
                 break;
 
+                /*case SDL_TEXTINPUT:
+                    SDL_Log("%s", ebentua.text.text);
+                    break;*/
+
             case SDL_WINDOWEVENT:
                 // SDL_DisplayMode mode;
                 if (ebentua.window.event == SDL_WINDOWEVENT_EXPOSED)
                 {
-                    refrescarpagina();
+                    SDL_GetWindowSize(Ventana, &screenWidth, &screenHeight);
+                    SDL_Log("h: %d, w: %d", screenHeight, screenWidth);
+                    SDL_SetWindowSize(Ventana, screenWidth, screenHeight);
+                    SDL_SetRenderDrawColor(gRenderer, 225, 255, 198, SDL_ALPHA_OPAQUE);
+                    SDL_Rect background = {0, 0, screenWidth, screenHeight};
+                    SDL_RenderFillRect(gRenderer, &background);
+
+                    SDL_RenderDrawLine(gRenderer, 20, 20, 70, 70);
+                    SDL_RenderPresent(gRenderer);
+                    SDL_Color kolor = {0x00, 0x00, 0x00};
+
+                    /*SDL_Rect inputBox = {100, 100, 200, 100};
+                    SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
+                    SDL_RenderFillRect(gRenderer, &inputBox);
+                    TTF_Font *font = 0;
+                    TTF_Init();
+                    font = TTF_OpenFontIndex("(Titulo)ChauPhilomeneOne-Regular.ttf", 40, 0);
+                    SDL_Surface *textSurface = TTF_RenderText_Solid(font, "Kaixo", kolor); // Color del texto (negro)
+                    SDL_Texture *textTexture = SDL_CreateTextureFromSurface(gRenderer, textSurface);
+                    SDL_Rect textRect = {inputBox.x + 5, inputBox.y + 5, textSurface->w, textSurface->h};
+                    SDL_RenderCopy(gRenderer, textTexture, NULL, &inputBox);*/
+
+                    // idatzi(gRenderer, 40, 40, "FreshKeep", kolor, 40, "OpenSans-Regular.ttf");
+                    tituluaIdatzi("FRESHKEEP", kolor, Ventana, "(Titulo)ChauPhilomeneOne-Regular.ttf");
+                    Irudiakjarri();
+                    inputMarraztu(gRenderer);
                 }
                 break;
             }
@@ -163,59 +150,15 @@ int Irudiakjarri()
     irudiaMugitu(id, 0, 435);
     id = irudiaKargatu(NOR_GARA_IMG); // 6
     irudiaMugitu(id, 0, 510);*/
-
-    if (lehenengoaldia)
-    {
-        id = irudiaKargatu(BERDEILUNA);     // 0
-        id = irudiaKargatu(HOSTOA_IMG);     // 1
-        id = irudiaKargatu(SOINUAPIZTUTA);  // 2
-        id = irudiaKargatu(SOINUAITZALITA); // 3
-        lehenengoaldia = 0;
-    }
-    if (!menuairekita)
-    {
-        irudiaMugitu(0, -327, 0);
-        irudiaMugitu(1, 6, 1);
-    }
-    else if (menuairekita)
-    {
-        irudiaMugitu(0, -152, 0);
-        irudiaMugitu(1, 181, 1);
-    }
-    if (soinuapiztutadago)
-    {
-        irudiaMugitu(2, 1150, 3);
-        irudiaMugitu(3, -1150, 3);
-    }
-    else if (!soinuapiztutadago)
-    {
-        irudiaMugitu(2, 1150, 3);
-        irudiaMugitu(3 - 1, -1150, 3);
-    }
-    /* //252,30
-    id = irudiaKargatu(FONDO_ABAJO_IMG);
-    irudiaMugitu(id, 0, 599);
-    id = irudiaKargatu(FONDO_ARRIBA_IMG);
-    irudiaMugitu(id, 0, 0);*/
+    id = irudiaKargatu(HOSTOA_IMG);
+    irudiaMugitu(id, 6, 1); /* //252,30
+     id = irudiaKargatu(FONDO_ABAJO_IMG);
+     irudiaMugitu(id, 0, 599);
+     id = irudiaKargatu(FONDO_ARRIBA_IMG);
+     irudiaMugitu(id, 0, 0);*/
     irudiakMarraztu();
     pantailaBerriztu();
     return id;
-}
-void refrescarpagina()
-{
-    SDL_GetWindowSize(Ventana, &screenWidth, &screenHeight);
-    SDL_Log("h: %d, w: %d", screenHeight, screenWidth);
-    SDL_SetWindowSize(Ventana, screenWidth, screenHeight);
-    SDL_SetRenderDrawColor(gRenderer, 225, 255, 198, SDL_ALPHA_OPAQUE);
-    SDL_Rect background = {0, 0, screenWidth, screenHeight};
-    SDL_RenderFillRect(gRenderer, &background);
-
-    SDL_RenderDrawLine(gRenderer, 20, 20, 70, 70);
-    SDL_RenderPresent(gRenderer);
-    SDL_Color kolor = {0x00, 0x00, 0x00};
-    // idatzi(gRenderer, 40, 40, "FreshKeep", kolor, 40, "OpenSans-Regular.ttf");
-    tituluaIdatzi("FRESHKEEP", kolor, Ventana, "(Titulo)ChauPhilomeneOne-Regular.ttf");
-    Irudiakjarri();
 }
 
 /* if (Ventana == NULL)
