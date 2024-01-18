@@ -240,6 +240,7 @@ int Irudiakjarri(int zeregin)
     irudiaMugitu(id, 0, 599);
     id = irudiaKargatu(FONDO_ARRIBA_IMG);
     irudiaMugitu(id, 0, 0);*/
+    irudiaMugituPantailarekinEzkerrerantz(2, Ventana);
     irudiakMarraztu();
     pantailaBerriztu();
     return id;
@@ -257,7 +258,6 @@ void refrescarpagina(int zeregin)
     SDL_RenderDrawLine(gRenderer, 20, 20, 70, 70);
     SDL_RenderPresent(gRenderer);
     SDL_Color kolor = {0x00, 0x00, 0x00};
-    // idatzi(gRenderer, 40, 40, "FreshKeep", kolor, 40, "OpenSans-Regular.ttf");
     tituluaIdatzi("FRESHKEEP", kolor, Ventana, "(Titulo)ChauPhilomeneOne-Regular.ttf");
     Irudiakjarri(zeregin);
 }

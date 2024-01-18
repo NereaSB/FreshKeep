@@ -109,6 +109,7 @@ int irudiarenPosizioaAurkitu(int id)
     }
     return -1;
 }
+
 void irudiaMugitubateskuinera(int numImg)
 {
 
@@ -118,6 +119,7 @@ void irudiaMugitubateskuinera(int numImg)
 
     irudiak[id].dest.x += 175;
 }
+
 void irudiaMugitubatezkerrera(int numImg)
 {
 
@@ -130,8 +132,25 @@ void irudiaMugitubatezkerrera(int numImg)
 
 void irudiaMugituPantailarekinEzkerrerantz(int numImg, SDL_Window *Ventana)
 {
-
     int id = 0;
+    int wWindow = 0;
+    int hWindow = 0;
+    int w = 0;
+    int h = 0;
+    int cadaCuanto = 0.1;
+
+    id = irudiarenPosizioaAurkitu(numImg);
+
+    SDL_GetWindowSize(Ventana, &wWindow, &hWindow);
+
+    w = irudiak[id].dest.w;
+    h = irudiak[id].dest.h;
+
+    int distanciaAlBorde = (int)(wWindow * cadaCuanto);
+
+    irudiak[id].dest.x = wWindow - w - distanciaAlBorde;
+
+    /*int id = 0;
     int wWindow = 0;
     int hWindow = 0;
     int w = 0;
@@ -141,10 +160,19 @@ void irudiaMugituPantailarekinEzkerrerantz(int numImg, SDL_Window *Ventana)
 
     SDL_GetWindowSize(Ventana, &wWindow, &hWindow);
 
-    irudiak[id].dest.x = (wWindow - w) - 200;
+    // Obtener las dimensiones de la imagen
+    w = irudiak[id].dest.w;
+    h = irudiak[id].dest.h;
+
+    // Llamas a la función pasando la posición de la imagen y la ventana
+    int distanciaAlBorde = calcularDistanciaAlBorde(irudiak[id].dest, Ventana);
+    int xFinal = wWindow - w - distanciaAlBorde;
+
+    // Actualizar la posición de la imagen
+    irudiak[id].dest.x = xFinal;*/
 }
 
-int irudiaKargatuNeurriekin(char *fileName, int width, int height)
+/*int irudiaKargatuNeurriekin(char *fileName, int width, int height)
 {
     int colorkey;
     SDL_Surface *surface;
@@ -188,4 +216,14 @@ int irudiaKargatuNeurriekin(char *fileName, int width, int height)
     }
 
     return id - 1;
-}
+}*/
+
+/*int calcularDistanciaAlBorde(SDL_Rect imagen, SDL_Window *ventana)
+{
+    int wWindow = 0;
+    SDL_GetWindowSize(ventana, &wWindow, NULL);
+
+    // Calcular la distancia desde el borde derecho
+    int distanciaAlBorde = wWindow - (imagen.x + imagen.w);
+    return distanciaAlBorde;
+}*/
