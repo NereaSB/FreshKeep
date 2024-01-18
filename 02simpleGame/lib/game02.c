@@ -1,5 +1,6 @@
 #include "game02.h"
-#include "ebentoak.h" //para boton raton
+#include "ebentoak.h"
+#include "gorde.h"
 #include "graphics.h"
 #include "ikono.h"
 #include "imagen.h"
@@ -30,7 +31,9 @@
 int pantailaHasi();
 int Irudiakjarri(int zeregin);
 void refrescarpagina(int zeregin);
+void idatziFitxategian(char izena[], char testua[]);
 
+char inputText[250] = "";
 SDL_Window *Ventana = NULL;
 SDL_Surface *Superficie = NULL;
 SDL_Renderer *gRenderer;
@@ -74,6 +77,7 @@ int pantailaHasi()
     audioInit();
     loadTheMusic(JOKOA_SOUND);
     playMusic();
+    // idatziFitxategian("fitxategia.txt", "kaixo");
 
     // icono
     ikonoajarribehekobarran(Ventana, LOGO_ESCRITORIO_IMG);
@@ -129,6 +133,19 @@ int pantailaHasi()
                         refrescarpagina(2);
                     }
                 }
+                else if (ebentua.key.keysym.sym == SDLK_BACKSPACE)
+                {
+                    if (SDL_strlen(inputText) > 0)
+                    {
+                        inputText[SDL_strlen(inputText) - 1] = '\0';
+                        inputMarraztu(gRenderer, inputText);
+                    }
+                }
+                else if (ebentua.key.keysym.sym == SDLK_RETURN)
+                {
+                    SDL_Log("Enter");
+                    idatziFitxategian("fitxategia.txt", "KAixo");
+                }
                 break;
 
             case SDL_QUIT: // Si hemos pulsado el cierre de la ventana
@@ -142,9 +159,16 @@ int pantailaHasi()
                 if (ebentua.window.event == SDL_WINDOWEVENT_EXPOSED)
                 {
                     refrescarpagina(0);
-                    // inputMarraztu(gRenderer);
+                    inputMarraztu(gRenderer, inputText);
                 }
                 break;
+
+            case SDL_TEXTINPUT:
+                if (SDL_strlen(inputText) < 12)
+                {
+                    strcat(inputText, ebentua.text.text);
+                }
+                inputMarraztu(gRenderer, inputText);
             }
         }
     }

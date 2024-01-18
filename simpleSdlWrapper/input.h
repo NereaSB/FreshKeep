@@ -2,6 +2,6 @@
 #define INPUT_H
 #include <SDL.h>
 
-void inputMarraztu(SDL_Renderer *gRenderer);
+void inputMarraztu(SDL_Renderer *gRenderer, char str[]);
 
 #endif

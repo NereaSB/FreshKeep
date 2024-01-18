@@ -5,6 +5,8 @@
     "sdl.h": "c",
     "stdio.h": "c",
     "graphics.h": "c",
-    "text.h": "c"
+    "text.h": "c",
+    "ebentoak.h": "c",
+    "gorde.h": "c"
   }
 }
