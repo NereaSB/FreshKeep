@@ -11,5 +11,8 @@ void irudiaKendu(int id);
 void irudiaMugitubateskuinera(int numImg);
 void irudiaMugitubatezkerrera(int numImg);
 void biirudiakMarraztu(int lehenengoa, int bigarrena);
+void irudiaMugituPantailarekinEzkerrerantz(int numImg, SDL_Window *Ventana);
+int irudiaKargatuNeurriekin(char *fileName, int width, int height);
+void calcularDistanciaRespectoAlBorde(int numImg, SDL_Window *Ventana, int distanciaDeseada);
 
 #endif

@@ -127,3 +127,65 @@ void irudiaMugitubatezkerrera(int numImg)
 
     irudiak[id].dest.x -= 175;
 }
+
+void irudiaMugituPantailarekinEzkerrerantz(int numImg, SDL_Window *Ventana)
+{
+
+    int id = 0;
+    int wWindow = 0;
+    int hWindow = 0;
+    int w = 0;
+    int h = 0;
+
+    id = irudiarenPosizioaAurkitu(numImg);
+
+    SDL_GetWindowSize(Ventana, &wWindow, &hWindow);
+
+    irudiak[id].dest.x = (wWindow - w) - 200;
+}
+
+int irudiaKargatuNeurriekin(char *fileName, int width, int height)
+{
+    int colorkey;
+    SDL_Surface *surface;
+    SDL_Renderer *gRenderer = getRenderer();
+
+    if (irudiKop < MAX_IMG)
+    {
+        surface = SDL_LoadBMP(fileName);
+        if (surface == NULL)
+        {
+            fprintf(stderr, "Couldn't load %s: %s\n", fileName, SDL_GetError());
+            return -1;
+        }
+        else
+        {
+            colorkey = SDL_MapRGB(surface->format, 255, 0, 255);
+            SDL_SetColorKey(surface, SDL_TRUE, colorkey);
+
+            SDL_Surface *scaledSurface =
+                SDL_CreateRGBSurface(0, width, height, surface->format->BitsPerPixel, surface->format->Rmask,
+                                     surface->format->Gmask, surface->format->Bmask, surface->format->Amask);
+
+            SDL_BlitScaled(surface, NULL, scaledSurface, NULL);
+
+            irudiak[irudiKop].texture = SDL_CreateTextureFromSurface(gRenderer, scaledSurface);
+            irudiak[irudiKop].dest.x = irudiak[irudiKop].dest.y = 0;
+            irudiak[irudiKop].dest.w = width;
+            irudiak[irudiKop].dest.h = height;
+            SDL_FreeSurface(surface);
+            SDL_FreeSurface(scaledSurface);
+
+            irudiak[irudiKop].id = id;
+            irudiKop++;
+            id++;
+        }
+    }
+    else
+    {
+        printf("Has superado el máximo de imágenes por aplicación. Para aumentar MAX_IMG, modifica el código.\n");
+        return -1;
+    }
+
+    return id - 1;
+}

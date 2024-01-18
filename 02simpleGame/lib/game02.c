@@ -239,6 +239,7 @@ int Irudiakjarri(int zeregin)
     pantailaBerriztu();
     return id;
 }
+
 void refrescarpagina(int zeregin)
 {
     SDL_GetWindowSize(Ventana, &screenWidth, &screenHeight);
