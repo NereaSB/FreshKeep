@@ -145,7 +145,12 @@ int pantailaHasi()
                 else if (ebentua.key.keysym.sym == SDLK_RETURN)
                 {
                     SDL_Log("Enter");
-                    idatziFitxategian("fitxategia.txt", "KAixo");
+                    int strlen = 0;
+                    char datua[50] = "";
+                    SDL_strlcpy(datua, inputText, 50);
+                    strlen = SDL_strlcat(datua, ", \n", 50);
+                    SDL_Log("%s", datua);
+                    idatziFitxategian("fitxategia.txt", datua);
                 }
                 break;
 

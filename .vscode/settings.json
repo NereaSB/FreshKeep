@@ -7,6 +7,7 @@
     "graphics.h": "c",
     "text.h": "c",
     "ebentoak.h": "c",
-    "gorde.h": "c"
+    "gorde.h": "c",
+    "stdlib.h": "c"
   }
 }
