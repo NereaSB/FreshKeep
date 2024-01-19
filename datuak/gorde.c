@@ -31,7 +31,7 @@ void irakurri(char izena[], char dest[][100])
         while (i < 100 && !amaituta)
         {
             fgets(linea, 125, fitxategia);
-            if (strcmp(dest[i], linea))
+            if (!strcmp(dest[i], linea))
             {
                 amaituta = 1;
             }
