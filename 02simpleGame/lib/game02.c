@@ -114,10 +114,13 @@ int pantailaHasi()
                         refrescarpagina(1);
                     }
                 }
-                else if (ebentua.key.keysym.sym == TECLA_1)
+                else if (ebentua.key.keysym.sym == TECLA_2)
                 {
                     char a[100][100];
                     irakurri("fitxategia.txt", a);
+                }
+                else if (ebentua.key.keysym.sym == TECLA_1)
+                {
                     if (soinuapiztutadago)
                     {
 
