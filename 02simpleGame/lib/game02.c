@@ -79,6 +79,13 @@ int pantailaHasi()
     playMusic();
     // idatziFitxategian("fitxategia.txt", "kaixo");
 
+    /////////
+    SDL_Renderer *renderer = SDL_CreateRenderer(Ventana, -1, SDL_RENDERER_ACCELERATED);
+
+    SDL_Rect buttonRect = {300, 200, 200, 100};
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // Color rojo para el botón (RGBA)
+    SDL_RenderFillRect(renderer, &buttonRect);
+
     // icono
     ikonoajarribehekobarran(Ventana, LOGO_ESCRITORIO_IMG);
 
@@ -114,6 +121,11 @@ int pantailaHasi()
                         refrescarpagina(1);
                     }
                 }
+                else if (ebentua.key.keysym.sym == TECLA_2)
+                {
+                    char a[100][100];
+                    irakurri("fitxategia.txt", a);
+                }
                 else if (ebentua.key.keysym.sym == TECLA_1)
                 {
                     if (soinuapiztutadago)
@@ -122,16 +134,16 @@ int pantailaHasi()
                         Mix_PauseMusic();
                         irudiaMugitu(3, 1150, 1);
                         irudiaMugitu(2, 3000, 0);
-                        refrescarpagina(2);
                         soinuapiztutadago = 0;
+                        refrescarpagina(2);
                     }
                     else
                     {
                         Mix_ResumeMusic();
                         irudiaMugitu(2, 1150, 1);
                         irudiaMugitu(3, 3000, 0);
-                        refrescarpagina(2);
                         soinuapiztutadago = 1;
+                        refrescarpagina(2);
                     }
                 }
                 else if (ebentua.key.keysym.sym == SDLK_BACKSPACE)
@@ -145,7 +157,14 @@ int pantailaHasi()
                 else if (ebentua.key.keysym.sym == SDLK_RETURN)
                 {
                     SDL_Log("Enter");
-                    idatziFitxategian("fitxategia.txt", "KAixo");
+                    int strlen = 0;
+                    char datua[50] = "";
+                    SDL_strlcpy(datua, inputText, 50);
+                    strlen = SDL_strlcat(datua, ", \n", 50);
+                    SDL_Log("%s", datua);
+                    idatziFitxategian("fitxategia.txt", datua);
+                    SDL_strlcpy(inputText, "", 250);
+                    inputMarraztu(gRenderer, inputText);
                 }
                 break;
 
@@ -219,12 +238,12 @@ int Irudiakjarri(int zeregin)
     }
     else if ((zeregin == 0) || (zeregin == 2))
     {
-        if (soinuapiztutadago)
+        if (!soinuapiztutadago)
         {
             irudiaMugitu(2, -1150, 3);
             irudiaMugitu(3, 1150, 3);
         }
-        else if (!soinuapiztutadago)
+        else if (soinuapiztutadago)
         {
             irudiaMugitu(2, 1150, 3);
             irudiaMugitu(3, -1150, 3);
@@ -235,10 +254,20 @@ int Irudiakjarri(int zeregin)
     irudiaMugitu(id, 0, 599);
     id = irudiaKargatu(FONDO_ARRIBA_IMG);
     irudiaMugitu(id, 0, 0);*/
+    if (soinuapiztutadago)
+    {
+        irudiaMugituPantailarekinEzkerrerantz(2, Ventana);
+    }
+    else if (!soinuapiztutadago)
+    {
+
+        irudiaMugituPantailarekinEzkerrerantz(3, Ventana);
+    }
     irudiakMarraztu();
     pantailaBerriztu();
     return id;
 }
+
 void refrescarpagina(int zeregin)
 {
     SDL_GetWindowSize(Ventana, &screenWidth, &screenHeight);
@@ -251,7 +280,6 @@ void refrescarpagina(int zeregin)
     SDL_RenderDrawLine(gRenderer, 20, 20, 70, 70);
     SDL_RenderPresent(gRenderer);
     SDL_Color kolor = {0x00, 0x00, 0x00};
-    // idatzi(gRenderer, 40, 40, "FreshKeep", kolor, 40, "OpenSans-Regular.ttf");
     tituluaIdatzi("FRESHKEEP", kolor, Ventana, "(Titulo)ChauPhilomeneOne-Regular.ttf");
     Irudiakjarri(zeregin);
 }
