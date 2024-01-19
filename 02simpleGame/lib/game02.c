@@ -116,6 +116,8 @@ int pantailaHasi()
                 }
                 else if (ebentua.key.keysym.sym == TECLA_1)
                 {
+                    char a[100][100];
+                    irakurri("fitxategia.txt", a);
                     if (soinuapiztutadago)
                     {
 
@@ -151,6 +153,8 @@ int pantailaHasi()
                     strlen = SDL_strlcat(datua, ", \n", 50);
                     SDL_Log("%s", datua);
                     idatziFitxategian("fitxategia.txt", datua);
+                    SDL_strlcpy(inputText, "", 250);
+                    inputMarraztu(gRenderer, inputText);
                 }
                 break;
 
