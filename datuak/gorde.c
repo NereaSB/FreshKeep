@@ -30,15 +30,14 @@ void irakurri(char izena[], char dest[][100])
     {
         while (i < 100 && !amaituta)
         {
-            fgets(linea, 125, fitxategia);
-            if (strcmp(dest[i], linea))
-            {
-                amaituta = 1;
-            }
-            else
+            if (fgets(linea, 125, fitxategia) != NULL) // Konprobatu lerroa hutsik badago
             {
                 strcpy(dest[i], linea);
                 i++;
+            }
+            else
+            {
+                amaituta = 1;
             }
         }
     }
