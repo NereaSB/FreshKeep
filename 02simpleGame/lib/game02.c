@@ -122,16 +122,16 @@ int pantailaHasi()
                         Mix_PauseMusic();
                         irudiaMugitu(3, 1150, 1);
                         irudiaMugitu(2, 3000, 0);
-                        refrescarpagina(2);
                         soinuapiztutadago = 0;
+                        refrescarpagina(2);
                     }
                     else
                     {
                         Mix_ResumeMusic();
                         irudiaMugitu(2, 1150, 1);
                         irudiaMugitu(3, 3000, 0);
-                        refrescarpagina(2);
                         soinuapiztutadago = 1;
+                        refrescarpagina(2);
                     }
                 }
                 else if (ebentua.key.keysym.sym == SDLK_BACKSPACE)
@@ -224,12 +224,12 @@ int Irudiakjarri(int zeregin)
     }
     else if ((zeregin == 0) || (zeregin == 2))
     {
-        if (soinuapiztutadago)
+        if (!soinuapiztutadago)
         {
             irudiaMugitu(2, -1150, 3);
             irudiaMugitu(3, 1150, 3);
         }
-        else if (!soinuapiztutadago)
+        else if (soinuapiztutadago)
         {
             irudiaMugitu(2, 1150, 3);
             irudiaMugitu(3, -1150, 3);
@@ -240,7 +240,15 @@ int Irudiakjarri(int zeregin)
     irudiaMugitu(id, 0, 599);
     id = irudiaKargatu(FONDO_ARRIBA_IMG);
     irudiaMugitu(id, 0, 0);*/
-    irudiaMugituPantailarekinEzkerrerantz(2, Ventana);
+    if (soinuapiztutadago)
+    {
+        irudiaMugituPantailarekinEzkerrerantz(2, Ventana);
+    }
+    else if (!soinuapiztutadago)
+    {
+
+        irudiaMugituPantailarekinEzkerrerantz(3, Ventana);
+    }
     irudiakMarraztu();
     pantailaBerriztu();
     return id;

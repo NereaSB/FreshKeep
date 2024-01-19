@@ -149,27 +149,6 @@ void irudiaMugituPantailarekinEzkerrerantz(int numImg, SDL_Window *Ventana)
     int distanciaAlBorde = (int)(wWindow * cadaCuanto);
 
     irudiak[id].dest.x = wWindow - w - distanciaAlBorde;
-
-    /*int id = 0;
-    int wWindow = 0;
-    int hWindow = 0;
-    int w = 0;
-    int h = 0;
-
-    id = irudiarenPosizioaAurkitu(numImg);
-
-    SDL_GetWindowSize(Ventana, &wWindow, &hWindow);
-
-    // Obtener las dimensiones de la imagen
-    w = irudiak[id].dest.w;
-    h = irudiak[id].dest.h;
-
-    // Llamas a la función pasando la posición de la imagen y la ventana
-    int distanciaAlBorde = calcularDistanciaAlBorde(irudiak[id].dest, Ventana);
-    int xFinal = wWindow - w - distanciaAlBorde;
-
-    // Actualizar la posición de la imagen
-    irudiak[id].dest.x = xFinal;*/
 }
 
 /*int irudiaKargatuNeurriekin(char *fileName, int width, int height)
