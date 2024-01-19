@@ -8,7 +8,7 @@ void inputMarraztu(SDL_Renderer *gRenderer, char str[])
     char testua[250];
     int fin = 0;
     SDL_Color kolor = {0x00, 0x00, 0x00};
-    SDL_Rect inputBox = {150, 300, 170, 50};
+    SDL_Rect inputBox = {150, 300, 180, 50};
     SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
     SDL_RenderFillRect(gRenderer, &inputBox);
     SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
