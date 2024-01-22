@@ -102,3 +102,27 @@ void pantailaBerriztu()
 {
     SDL_RenderPresent(gRenderer);
 }
+
+void laukiaMarraztu(SDL_Renderer *gRenderer, int x, int y, int pw, int ph, SDL_Color color, TTF_Font *font,
+                    const char *texto)
+{
+    SDL_Rect laukia = {x, y, pw, ph};
+    SDL_SetRenderDrawColor(gRenderer, color.r, color.g, color.b, color.a);
+    SDL_RenderFillRect(gRenderer, &laukia);
+    SDL_Color tKolor = {0, 0, 0};
+    font = TTF_OpenFontIndex("(Titulo)ChauPhilomeneOne-Regular.ttf", 40, 0);
+    SDL_Surface *textSurface = TTF_RenderText_Solid(font, texto, tKolor);
+
+    SDL_Texture *textTexture = SDL_CreateTextureFromSurface(gRenderer, textSurface);
+    int textWidth, textHeight;
+    SDL_QueryTexture(textTexture, NULL, NULL, &textWidth, &textHeight);
+    int textX = x + (pw - textWidth) / 2;
+    int textY = y + (ph - textHeight) / 2;
+
+    SDL_Rect textRect = {textX, textY, textWidth, textHeight};
+    SDL_RenderCopy(gRenderer, textTexture, NULL, &textRect);
+    SDL_FreeSurface(textSurface);
+    SDL_DestroyTexture(textTexture);
+    SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
+    SDL_RenderDrawRect(gRenderer, &laukia);
+}
