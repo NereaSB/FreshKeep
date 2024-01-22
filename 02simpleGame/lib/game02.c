@@ -1,4 +1,5 @@
 #include "game02.h"
+#include "boton.h"
 #include "ebentoak.h"
 #include "gorde.h"
 #include "graphics.h"
@@ -38,6 +39,19 @@ SDL_Window *Ventana = NULL;
 SDL_Surface *Superficie = NULL;
 SDL_Renderer *gRenderer;
 SDL_Rect src, dst;
+TTF_Font *font;
+SDL_Color laukizuzenarenKolorea = {255, 255, 198, SDL_ALPHA_OPAQUE};
+
+Button Hostoa_Botoia = {{6, 1, 100, 70}, {255, 0, 0, 255}, 0};
+Button Soinua_Botoia = {{1150, 3, 70, 70}, {255, 0, 0, 255}, 0};
+Button Hasiera_Botoia = {{10, 100, 160, 50}, {255, 0, 0, 255}, 0};
+Button ListaOsoa_Botoia = {{10, 180, 160, 50}, {255, 0, 0, 255}, 0};
+Button Gehitu_Botoia = {{10, 260, 160, 50}, {255, 0, 0, 255}, 0};
+Button Osasuna_Botoia = {{10, 340, 160, 50}, {255, 0, 0, 255}, 0};
+Button Donazioa_Botoia = {{10, 420, 160, 50}, {255, 0, 0, 255}, 0};
+Button NorGara_Botoia = {{10, 500, 160, 50}, {255, 0, 0, 255}, 0};
+Button Idatzi_Botoia = {{600, 100, 180, 50}, {255, 0, 0, 255}, 0}; // 300
+
 int fin = 0, id;
 int screenWidth;
 int screenHeight;
@@ -102,12 +116,13 @@ int pantailaHasi()
                 {
                     SDL_SetWindowFullscreen(Ventana, 0); // Ponemos fin a true para salir del bucle
                 }
-                else if (ebentua.key.keysym.sym == TECLA_0)
+
+                /*else if (ebentua.key.keysym.sym == TECLA_0)
                 {
                     if (!menuairekita)
                     {
                         menuairekita = 1;
-                        /*tics = SDL_GetTicks();*/
+                        //*tics = SDL_GetTicks();
                         irudiaMugitubateskuinera(0);
                         irudiaMugitubateskuinera(1);
                         refrescarpagina(1);
@@ -115,18 +130,20 @@ int pantailaHasi()
                     else if (menuairekita)
                     {
                         menuairekita = 0;
-                        /*tics = SDL_GetTicks();*/
+                        //tics = SDL_GetTicks();
                         irudiaMugitubatezkerrera(0);
                         irudiaMugitubatezkerrera(1);
                         refrescarpagina(1);
                     }
-                }
+                }*/
+
                 else if (ebentua.key.keysym.sym == TECLA_2)
                 {
                     char a[100][100];
                     irakurri("fitxategia.txt", a);
                 }
-                else if (ebentua.key.keysym.sym == TECLA_1)
+
+                /*else if (ebentua.key.keysym.sym == TECLA_1)
                 {
                     if (soinuapiztutadago)
                     {
@@ -145,7 +162,8 @@ int pantailaHasi()
                         soinuapiztutadago = 1;
                         refrescarpagina(2);
                     }
-                }
+                }*/
+
                 else if (ebentua.key.keysym.sym == SDLK_BACKSPACE)
                 {
                     if (SDL_strlen(inputText) > 0)
@@ -166,6 +184,18 @@ int pantailaHasi()
                     SDL_strlcpy(inputText, "", 250);
                     inputMarraztu(gRenderer, inputText);
                 }
+                break;
+
+            case SDL_MOUSEBUTTONDOWN:
+                handleMouseClick(&ebentua, &Hostoa_Botoia);
+                handleMouseClick(&ebentua, &Soinua_Botoia);
+                handleMouseClick(&ebentua, &Hasiera_Botoia);
+                handleMouseClick(&ebentua, &ListaOsoa_Botoia);
+                handleMouseClick(&ebentua, &Gehitu_Botoia);
+                handleMouseClick(&ebentua, &Osasuna_Botoia);
+                handleMouseClick(&ebentua, &Donazioa_Botoia);
+                handleMouseClick(&ebentua, &NorGara_Botoia);
+                handleMouseClick(&ebentua, &Idatzi_Botoia);
                 break;
 
             case SDL_QUIT: // Si hemos pulsado el cierre de la ventana
@@ -191,6 +221,90 @@ int pantailaHasi()
                 inputMarraztu(gRenderer, inputText);
             }
         }
+        if (Hostoa_Botoia.isClicked)
+        {
+            if (!menuairekita)
+            {
+                // Lógica cuando el botón es clicado por primera vez
+                menuairekita = 1;
+                /*tics = SDL_GetTicks();*/
+                irudiaMugitubateskuinera(0);
+                irudiaMugitubateskuinera(1);
+                refrescarpagina(1);
+                drawButton(gRenderer, &Hasiera_Botoia);
+                drawButton(gRenderer, &ListaOsoa_Botoia);
+                drawButton(gRenderer, &Gehitu_Botoia);
+                drawButton(gRenderer, &Idatzi_Botoia);
+                if (Gehitu_Botoia.isClicked)
+                {
+                    drawButton(gRenderer, &Idatzi_Botoia); /*
+                    if (Idatzi_Botoia.isClicked)           // PREGUNTAR A MIKEL
+                    {
+                        if (SDL_strlen(inputText) > 0)
+                        {
+                            inputText[SDL_strlen(inputText) - 1] = '\0';
+                            inputMarraztu(gRenderer, inputText);
+                        }
+
+                        else if (ebentua.key.keysym.sym == SDLK_RETURN)
+                        {
+                            SDL_Log("Enter");
+                            int strlen = 0;
+                            char datua[50] = "";
+                            SDL_strlcpy(datua, inputText, 50);
+                            strlen = SDL_strlcat(datua, ", \n", 50);
+                            SDL_Log("%s", datua);
+                            idatziFitxategian("fitxategia.txt", datua);
+                        }
+                        Idatzi_Botoia.isClicked = 0;
+                    }*/
+                    Gehitu_Botoia.isClicked = 0;
+                }
+                drawButton(gRenderer, &Osasuna_Botoia);
+                drawButton(gRenderer, &Donazioa_Botoia);
+                drawButton(gRenderer, &NorGara_Botoia);
+            }
+            else
+            {
+                // Lógica cuando el botón es clicado después de la primera vez
+                menuairekita = 0;
+                /*tics = SDL_GetTicks();*/
+                irudiaMugitubatezkerrera(0);
+                irudiaMugitubatezkerrera(1);
+                refrescarpagina(1);
+            }
+
+            // Resetear la variable isClicked después de procesar el clic
+            Hostoa_Botoia.isClicked = 0;
+        }
+
+        if (Soinua_Botoia.isClicked)
+        {
+            if (soinuapiztutadago)
+            {
+
+                Mix_PauseMusic();
+                irudiaMugitu(3, 1150, 1);
+                irudiaMugitu(2, 3000, 0);
+                soinuapiztutadago = 0;
+                refrescarpagina(2);
+            }
+            else
+            {
+                Mix_ResumeMusic();
+                irudiaMugitu(2, 1150, 1);
+                irudiaMugitu(3, 3000, 0);
+                soinuapiztutadago = 1;
+                refrescarpagina(2);
+            }
+            Soinua_Botoia.isClicked = 0;
+        }
+
+        // Dibujar el botón
+        drawButton(gRenderer, &Hostoa_Botoia);
+        drawButton(gRenderer, &Soinua_Botoia);
+
+        SDL_RenderPresent(gRenderer);
     }
     return 0;
 }
@@ -198,18 +312,6 @@ int pantailaHasi()
 int Irudiakjarri(int zeregin)
 {
     int id = -1;
-    /*id = irudiaKargatu(HASIERA_IMG); // 1
-    irudiaMugitu(id, 0, 100);
-    id = irudiaKargatu(LISTA_IMG); // 2
-    irudiaMugitu(id, 0, 178);
-    id = irudiaKargatu(GEHITU_IMG); // 3
-    irudiaMugitu(id, 0, 268);
-    id = irudiaKargatu(OSASUNA_IMG); // 4
-    irudiaMugitu(id, 0, 350);
-    id = irudiaKargatu(DONAZIOA_IMG); // 5
-    irudiaMugitu(id, 0, 435);
-    id = irudiaKargatu(NOR_GARA_IMG); // 6
-    irudiaMugitu(id, 0, 510);*/
 
     if (lehenengoaldia)
     {
@@ -249,11 +351,7 @@ int Irudiakjarri(int zeregin)
             irudiaMugitu(3, -1150, 3);
         }
     }
-    /* //252,30
-    id = irudiaKargatu(FONDO_ABAJO_IMG);
-    irudiaMugitu(id, 0, 599);
-    id = irudiaKargatu(FONDO_ARRIBA_IMG);
-    irudiaMugitu(id, 0, 0);*/
+
     if (soinuapiztutadago)
     {
         irudiaMugituPantailarekinEzkerrerantz(2, Ventana);
@@ -279,6 +377,19 @@ void refrescarpagina(int zeregin)
 
     SDL_RenderDrawLine(gRenderer, 20, 20, 70, 70);
     SDL_RenderPresent(gRenderer);
+
+    Irudiakjarri(zeregin);
+    if (menuairekita)
+    {
+        laukiaMarraztu(gRenderer, 10, 100, 160, 50, laukizuzenarenKolorea, font, "Hasiera");
+        laukiaMarraztu(gRenderer, 10, 180, 160, 50, laukizuzenarenKolorea, font, "Lista osoa");
+        laukiaMarraztu(gRenderer, 10, 260, 160, 50, laukizuzenarenKolorea, font, "Gehitu");
+        laukiaMarraztu(gRenderer, 10, 340, 160, 50, laukizuzenarenKolorea, font, "Osasuna");
+        laukiaMarraztu(gRenderer, 10, 420, 160, 50, laukizuzenarenKolorea, font, "Donazioa");
+        laukiaMarraztu(gRenderer, 10, 500, 160, 50, laukizuzenarenKolorea, font, "Nor gara");
+        SDL_RenderPresent(gRenderer);
+    }
+
     SDL_Color kolor = {0x00, 0x00, 0x00};
     tituluaIdatzi("FRESHKEEP", kolor, Ventana, "(Titulo)ChauPhilomeneOne-Regular.ttf");
     Irudiakjarri(zeregin);
