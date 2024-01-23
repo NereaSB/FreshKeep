@@ -8,6 +8,7 @@
 #include "input.h"
 #include "soinua.h"
 #include "text.h"
+#include <input.h>
 #include <stdio.h>
 
 #define NOR_GARA_IMG "./img/nor_gara.bmp"
@@ -51,6 +52,13 @@ Button Osasuna_Botoia = {{10, 340, 160, 50}, {255, 0, 0, 255}, 0};
 Button Donazioa_Botoia = {{10, 420, 160, 50}, {255, 0, 0, 255}, 0};
 Button NorGara_Botoia = {{10, 500, 160, 50}, {255, 0, 0, 255}, 0};
 Button Idatzi_Botoia = {{600, 100, 180, 50}, {255, 0, 0, 255}, 0}; // 300
+
+Input inputak[10] = {{{600, 200, 180, 50}, "", 0},
+                     {{500, 700, 180, 50}, "", 0},
+                     {{100, 300, 180, 50}, "", 0},
+                     {{300, 500, 180, 50}, "", 0}};
+
+Input *inputAktiboa = &inputak[0];
 
 int fin = 0, id;
 int screenWidth;
@@ -159,23 +167,26 @@ int pantailaHasi()
 
                 else if (ebentua.key.keysym.sym == SDLK_BACKSPACE)
                 {
-                    if (SDL_strlen(inputText) > 0)
+                    if (SDL_strlen(inputAktiboa->inputText) > 0 && inputAktiboa != NULL)
                     {
-                        inputText[SDL_strlen(inputText) - 1] = '\0';
-                        inputMarraztu(gRenderer, inputText);
+                        char text[250];
+                        SDL_strlcpy(text, inputAktiboa->inputText, 50);
+                        text[SDL_strlen(text) - 1] = '\0';
+                        SDL_strlcpy(inputAktiboa->inputText, text, 50);
+                        inputMarraztu(gRenderer, inputAktiboa);
                     }
                 }
-                else if (ebentua.key.keysym.sym == SDLK_RETURN)
+                else if (ebentua.key.keysym.sym == SDLK_RETURN && inputAktiboa != NULL)
                 {
                     SDL_Log("Enter");
                     int strlen = 0;
                     char datua[50] = "";
-                    SDL_strlcpy(datua, inputText, 50);
+                    SDL_strlcpy(datua, inputAktiboa->inputText, 50);
                     strlen = SDL_strlcat(datua, ", \n", 50);
                     SDL_Log("%s", datua);
                     idatziFitxategian("fitxategia.txt", datua);
-                    SDL_strlcpy(inputText, "", 250);
-                    inputMarraztu(gRenderer, inputText);
+                    SDL_strlcpy(inputAktiboa->inputText, "", 250);
+                    inputMarraztu(gRenderer, inputAktiboa);
                 }
                 break;
 
@@ -189,6 +200,16 @@ int pantailaHasi()
                 handleMouseClick(&ebentua, &Donazioa_Botoia);
                 handleMouseClick(&ebentua, &NorGara_Botoia);
                 handleMouseClick(&ebentua, &Idatzi_Botoia);
+                if (inputAktiboa != NULL)
+                {
+                    int index;
+                    // handleInputSelected(&ebentua, inputAktiboa, gRenderer);
+                    index = searchSelectedInput(&ebentua, inputAktiboa, inputak, 4, gRenderer);
+                    if (index < 4)
+                    {
+                        inputAktiboa = &inputak[index];
+                    }
+                }
                 break;
 
             case SDL_QUIT: // Si hemos pulsado el cierre de la ventana
@@ -202,16 +223,16 @@ int pantailaHasi()
                 if (ebentua.window.event == SDL_WINDOWEVENT_EXPOSED)
                 {
                     refrescarpagina(0);
-                    inputMarraztu(gRenderer, inputText);
+                    inputMarraztu(gRenderer, inputAktiboa);
                 }
                 break;
 
             case SDL_TEXTINPUT:
-                if (SDL_strlen(inputText) < 12)
+                if (SDL_strlen(inputAktiboa->inputText) < 12 && inputAktiboa != NULL)
                 {
-                    strcat(inputText, ebentua.text.text);
+                    SDL_strlcat(inputAktiboa->inputText, ebentua.text.text, 50);
+                    inputMarraztu(gRenderer, inputAktiboa);
                 }
-                inputMarraztu(gRenderer, inputText);
             }
         }
         if (Hostoa_Botoia.isClicked)
@@ -371,6 +392,7 @@ void refrescarpagina(int zeregin)
     SDL_RenderDrawLine(gRenderer, 20, 20, 70, 70);
     SDL_RenderPresent(gRenderer);
 
+    inputMarraztu(gRenderer, inputAktiboa);
     Irudiakjarri(zeregin);
     if (menuairekita)
     {
@@ -386,6 +408,7 @@ void refrescarpagina(int zeregin)
     SDL_Color kolor = {0x00, 0x00, 0x00};
     tituluaIdatzi("FRESHKEEP", kolor, Ventana, "(Titulo)ChauPhilomeneOne-Regular.ttf");
     Irudiakjarri(zeregin);
+    inputakMarraztu(gRenderer, inputak, 4);
 }
 
 /* if (Ventana == NULL)
