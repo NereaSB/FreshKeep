@@ -45,7 +45,7 @@ SDL_Color laukizuzenarenKolorea = {255, 255, 198, SDL_ALPHA_OPAQUE};
 SDL_Color NorGaraKolorea = {255, 255, 255, SDL_ALPHA_OPAQUE};
 
 Button Hostoa_Botoia = {{6, 1, 100, 70}, {255, 0, 0, 255}, 0};
-Button Soinua_Botoia = {{1460, 3, 70, 70}, {255, 0, 0, 255}, 0};
+Button Soinua_Botoia = {{1460, 3, 50, 50}, {255, 0, 0, 255}, 0};
 Button Hasiera_Botoia = {{10, 100, 160, 50}, {255, 0, 0, 255}, 0};
 Button ListaOsoa_Botoia = {{10, 180, 160, 50}, {255, 0, 0, 255}, 0};
 Button Gehitu_Botoia = {{10, 260, 160, 50}, {255, 0, 0, 255}, 0};
@@ -69,6 +69,8 @@ int soinuapiztutadago = 1;
 int lehenengoaldia = 1;
 int menuairekita = 0;
 int zeregin = 0;
+int nuevoscreenWidth;
+int nuevoscreenHeigth;
 
 int pantailaHasi()
 {
@@ -87,6 +89,7 @@ int pantailaHasi()
     gRenderer = SDL_CreateRenderer(Ventana, -1, SDL_RENDERER_ACCELERATED);
     SDL_GetWindowSize(Ventana, &screenWidth, &screenHeight);
     SDL_SetWindowSize(Ventana, screenWidth, screenHeight);
+    drawButton(gRenderer, &Soinua_Botoia);
     SDL_SetRenderDrawColor(gRenderer, 225, 255, 198, SDL_ALPHA_OPAQUE);
     SDL_Rect background = {0, 0, 1980, 920};
     SDL_RenderFillRect(gRenderer, &background);
@@ -118,53 +121,11 @@ int pantailaHasi()
                 {
                     SDL_SetWindowFullscreen(Ventana, 0); // Ponemos fin a true para salir del bucle
                 }
-
-                /*else if (ebentua.key.keysym.sym == TECLA_0)
-                {
-                    if (!menuairekita)
-                    {
-                        menuairekita = 1;
-                        //*tics = SDL_GetTicks();
-                        irudiaMugitubateskuinera(0);
-                        irudiaMugitubateskuinera(1);
-                        refrescarpagina(1);
-                    }
-                    else if (menuairekita)
-                    {
-                        menuairekita = 0;
-                        //tics = SDL_GetTicks();
-                        irudiaMugitubatezkerrera(0);
-                        irudiaMugitubatezkerrera(1);
-                        refrescarpagina(1);
-                    }
-                }*/
-
                 else if (ebentua.key.keysym.sym == TECLA_2)
                 {
                     char a[100][100];
                     irakurri("fitxategia.txt", a);
                 }
-
-                /*else if (ebentua.key.keysym.sym == TECLA_1)
-                {
-                    if (soinuapiztutadago)
-                    {
-
-                        Mix_PauseMusic();
-                        irudiaMugitu(3, 1150, 1);
-                        irudiaMugitu(2, 3000, 0);
-                        soinuapiztutadago = 0;
-                        refrescarpagina(2);
-                    }
-                    else
-                    {
-                        Mix_ResumeMusic();
-                        irudiaMugitu(2, 1150, 1);
-                        irudiaMugitu(3, 3000, 0);
-                        soinuapiztutadago = 1;
-                        refrescarpagina(2);
-                    }
-                }*/
 
                 else if (ebentua.key.keysym.sym == SDLK_BACKSPACE)
                 {
@@ -223,6 +184,17 @@ int pantailaHasi()
                 // SDL_DisplayMode mode;
                 if (ebentua.window.event == SDL_WINDOWEVENT_EXPOSED)
                 {
+                    SDL_GetWindowSize(Ventana, &nuevoscreenWidth, &nuevoscreenHeigth);
+                    if (nuevoscreenWidth > 950)
+                    {
+                        screenWidth = nuevoscreenWidth;
+                    }
+                    else
+                    {
+                        screenWidth = 950;
+                    }
+                    SDL_SetWindowSize(Ventana, screenWidth, screenHeight);
+                    Soinua_Botoia.rect.x = screenWidth - 61;
                     refrescarpagina(0);
                     inputMarraztu(gRenderer, inputAktiboa);
                 }
@@ -300,6 +272,11 @@ int pantailaHasi()
             laukiaMarraztu(gRenderer, 535, 500, 300, 60, NorGaraKolorea, font, "Nerea Soares");
             laukiaMarraztu(gRenderer, 865, 500, 300, 60, NorGaraKolorea, font, "Mikel Landa");
             laukiaMarraztu(gRenderer, 1200, 500, 300, 60, NorGaraKolorea, font, "Izaro Matxain");
+        }
+        if (ListaOsoa_Botoia.isClicked)
+        {
+
+            laukiaMarraztu(gRenderer, 250, 200, (screenWidth - 500), 500, NorGaraKolorea, font, "");
         }
 
         // Dibujar el botón
@@ -402,32 +379,3 @@ void refrescarpagina(int zeregin)
     Irudiakjarri(zeregin);
     inputakMarraztu(gRenderer, inputak, 4);
 }
-
-/* if (Ventana == NULL)
-        {
-            printf("ERROR: No se pudo crear la ventana, SDL_Error: %s\n", SDL_GetError());
-        }
-        else
-        {
-            // Se crea la superficie para la ventana principal
-            Superficie = SDL_GetWindowSurface(Ventana);
-
-            // Se actualiza la superficie
-            SDL_UpdateWindowSurface(Ventana);
-        }*/
-
-// Testua
-/*TTF_Init();
-SDL_Texture *texture;
-TTF_Font *letra = TTF_OpenFont("../Debug/OpenSans-Regular.ttf", 28);
-SDL_Color kolorea = {0, 0, 0};
-SDL_Surface *testuarenAzalera = TTF_RenderText_Solid(letra, "FreshKeep", kolorea);
-texture = SDL_CreateTextureFromSurface(gRenderer, testuarenAzalera);
-src.x = 0;
-dst.x = 0;
-src.y = 0;
-dst.y = 0;
-src.w = dst.w = testuarenAzalera->w;
-src.h = dst.h = testuarenAzalera->h;
-SDL_RenderCopy(gRenderer, texture, &src, &dst);
-SDL_RenderPresent(gRenderer);*/
