@@ -41,6 +41,7 @@ SDL_Renderer *gRenderer;
 SDL_Rect src, dst;
 TTF_Font *font;
 SDL_Color laukizuzenarenKolorea = {255, 255, 198, SDL_ALPHA_OPAQUE};
+SDL_Color NorGaraKolorea = {255, 255, 255, SDL_ALPHA_OPAQUE};
 
 Button Hostoa_Botoia = {{6, 1, 100, 70}, {255, 0, 0, 255}, 0};
 Button Soinua_Botoia = {{1150, 3, 70, 70}, {255, 0, 0, 255}, 0};
@@ -230,27 +231,7 @@ int pantailaHasi()
                 drawButton(gRenderer, &Idatzi_Botoia);
                 if (Gehitu_Botoia.isClicked)
                 {
-                    drawButton(gRenderer, &Idatzi_Botoia); /*
-                    if (Idatzi_Botoia.isClicked)           // PREGUNTAR A MIKEL
-                    {
-                        if (SDL_strlen(inputText) > 0)
-                        {
-                            inputText[SDL_strlen(inputText) - 1] = '\0';
-                            inputMarraztu(gRenderer, inputText);
-                        }
-
-                        else if (ebentua.key.keysym.sym == SDLK_RETURN)
-                        {
-                            SDL_Log("Enter");
-                            int strlen = 0;
-                            char datua[50] = "";
-                            SDL_strlcpy(datua, inputText, 50);
-                            strlen = SDL_strlcat(datua, ", \n", 50);
-                            SDL_Log("%s", datua);
-                            idatziFitxategian("fitxategia.txt", datua);
-                        }
-                        Idatzi_Botoia.isClicked = 0;
-                    }*/
+                    drawButton(gRenderer, &Idatzi_Botoia);
                     Gehitu_Botoia.isClicked = 0;
                 }
                 drawButton(gRenderer, &Osasuna_Botoia);
@@ -292,6 +273,13 @@ int pantailaHasi()
             }
             Soinua_Botoia.isClicked = 0;
         }
+        if (NorGara_Botoia.isClicked)
+        {
+            laukiaMarraztu(gRenderer, 200, 500, 300, 60, NorGaraKolorea, font, "Markel Gomez");
+            laukiaMarraztu(gRenderer, 535, 500, 300, 60, NorGaraKolorea, font, "Nerea Soares");
+            laukiaMarraztu(gRenderer, 865, 500, 300, 60, NorGaraKolorea, font, "Mikel Landa");
+            laukiaMarraztu(gRenderer, 1200, 500, 300, 60, NorGaraKolorea, font, "Izaro Matxain");
+        }
 
         // Dibujar el botón
         drawButton(gRenderer, &Hostoa_Botoia);
@@ -324,11 +312,15 @@ int Irudiakjarri(int zeregin)
         {
             irudiaMugitu(0, -327, 0);
             irudiaMugitu(1, 6, 1);
+            Hostoa_Botoia.rect.x = 6;
+            Hostoa_Botoia.rect.y = 1;
         }
         else if (menuairekita)
         {
             irudiaMugitu(0, -152, 0);
             irudiaMugitu(1, 181, 1);
+            Hostoa_Botoia.rect.x = 181;
+            Hostoa_Botoia.rect.y = 1;
         }
     }
     else if ((zeregin == 0) || (zeregin == 2))
@@ -385,7 +377,6 @@ void refrescarpagina(int zeregin)
 
     SDL_Color kolor = {0x00, 0x00, 0x00};
     tituluaIdatzi("FRESHKEEP", kolor, Ventana, "(Titulo)ChauPhilomeneOne-Regular.ttf");
-    Irudiakjarri(zeregin);
 }
 
 /* if (Ventana == NULL)

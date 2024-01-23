@@ -1,4 +1,3 @@
-
 #include "./lib/game02.h"
 #include "boton.h"
 #include "ebentoak.h"
