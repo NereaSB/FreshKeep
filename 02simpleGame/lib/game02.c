@@ -89,7 +89,6 @@ int pantailaHasi()
     gRenderer = SDL_CreateRenderer(Ventana, -1, SDL_RENDERER_ACCELERATED);
     SDL_GetWindowSize(Ventana, &screenWidth, &screenHeight);
     SDL_SetWindowSize(Ventana, screenWidth, screenHeight);
-    drawButton(gRenderer, &Soinua_Botoia);
     SDL_SetRenderDrawColor(gRenderer, 225, 255, 198, SDL_ALPHA_OPAQUE);
     SDL_Rect background = {0, 0, 1980, 920};
     SDL_RenderFillRect(gRenderer, &background);
@@ -161,7 +160,6 @@ int pantailaHasi()
                 handleMouseClick(&ebentua, &Osasuna_Botoia);
                 handleMouseClick(&ebentua, &Donazioa_Botoia);
                 handleMouseClick(&ebentua, &NorGara_Botoia);
-                handleMouseClick(&ebentua, &Idatzi_Botoia);
                 if (inputAktiboa != NULL)
                 {
                     int index;
@@ -221,12 +219,6 @@ int pantailaHasi()
                 drawButton(gRenderer, &Hasiera_Botoia);
                 drawButton(gRenderer, &ListaOsoa_Botoia);
                 drawButton(gRenderer, &Gehitu_Botoia);
-                drawButton(gRenderer, &Idatzi_Botoia);
-                if (Gehitu_Botoia.isClicked)
-                {
-                    drawButton(gRenderer, &Idatzi_Botoia);
-                    Gehitu_Botoia.isClicked = 0;
-                }
                 drawButton(gRenderer, &Osasuna_Botoia);
                 drawButton(gRenderer, &Donazioa_Botoia);
                 drawButton(gRenderer, &NorGara_Botoia);
@@ -278,11 +270,6 @@ int pantailaHasi()
 
             laukiaMarraztu(gRenderer, 250, 200, (screenWidth - 500), 500, NorGaraKolorea, font, "");
         }
-
-        // Dibujar el botón
-        drawButton(gRenderer, &Hostoa_Botoia);
-        drawButton(gRenderer, &Soinua_Botoia);
-
         SDL_RenderPresent(gRenderer);
     }
     return 0;
