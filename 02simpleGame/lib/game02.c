@@ -45,7 +45,7 @@ SDL_Color laukizuzenarenKolorea = {255, 255, 198, SDL_ALPHA_OPAQUE};
 SDL_Color NorGaraKolorea = {255, 255, 255, SDL_ALPHA_OPAQUE};
 
 Button Hostoa_Botoia = {{6, 1, 100, 70}, {255, 0, 0, 255}, 0};
-Button Soinua_Botoia = {{1150, 3, 70, 70}, {255, 0, 0, 255}, 0};
+Button Soinua_Botoia = {{1460, 3, 70, 70}, {255, 0, 0, 255}, 0};
 Button Hasiera_Botoia = {{10, 100, 160, 50}, {255, 0, 0, 255}, 0};
 Button ListaOsoa_Botoia = {{10, 180, 160, 50}, {255, 0, 0, 255}, 0};
 Button Gehitu_Botoia = {{10, 260, 160, 50}, {255, 0, 0, 255}, 0};
