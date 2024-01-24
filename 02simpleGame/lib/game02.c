@@ -69,6 +69,10 @@ int zeregin = 0;
 int nuevoscreenWidth;
 int nuevoscreenHeigth;
 
+char produktuak[100][15];
+char datak[100][3][5];
+int zenbatProduktu;
+
 int pantailaHasi()
 {
 
@@ -120,7 +124,7 @@ int pantailaHasi()
                 else if (ebentua.key.keysym.sym == TECLA_2)
                 {
                     char a[100][100];
-                    irakurri("fitxategia.txt", a);
+                    irakurri("fitxategia.txt", produktuak, datak);
                 }
 
                 else if (ebentua.key.keysym.sym == SDLK_BACKSPACE)
@@ -133,9 +137,6 @@ int pantailaHasi()
                         SDL_strlcpy(inputAktiboa->inputText, text, 50);
                         inputMarraztu(gRenderer, inputAktiboa);
                     }
-                }
-                else if (ebentua.key.keysym.sym == SDLK_RETURN && inputAktiboa != NULL)
-                {
                 }
                 break;
 
@@ -168,8 +169,9 @@ int pantailaHasi()
                     strlen = SDL_strlcat(datua, ", ", 50);
                     strlen = SDL_strlcat(datua, inputak[1].inputText, 50);
                     strlen = SDL_strlcat(datua, "\n", 50);
-                    SDL_Log("%s", datua);
                     idatziFitxategian("fitxategia.txt", datua);
+                    zenbatProduktu = irakurri("fitxategia.txt", produktuak, datak);
+                    datakOrdenatu(datak, produktuak, zenbatProduktu);
                     inputakGarbitu(inputak, zenbatInput, gRenderer);
                 }
                 break;
