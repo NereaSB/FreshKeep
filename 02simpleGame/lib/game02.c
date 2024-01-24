@@ -54,11 +54,8 @@ Button Donazioa_Botoia = {{10, 420, 160, 50}, {255, 0, 0, 255}, 0};
 Button NorGara_Botoia = {{10, 500, 160, 50}, {255, 0, 0, 255}, 0};
 Button Idatzi_Botoia = {{600, 100, 180, 50}, {255, 0, 0, 255}, 0}; // 300
 
-Input inputak[10] = {{{600, 200, 180, 50}, "", 0},
-                     {{500, 700, 180, 50}, "", 0},
-                     {{100, 300, 180, 50}, "", 0},
-                     {{300, 500, 180, 50}, "", 0}};
-
+Input inputak[10] = {{{400, 350, 180, 50}, "", 0, "Produktua"}, {{400, 450, 180, 50}, "", 0, "Iraungitze data"}};
+int zenbatInput = 2;
 Input *inputAktiboa = &inputak[0];
 
 int fin = 0, id;
@@ -179,16 +176,7 @@ int pantailaHasi()
                 }
                 else if (ebentua.key.keysym.sym == SDLK_RETURN && inputAktiboa != NULL)
                 {
-                    SDL_Log("Enter");
-                    int strlen = 0;
-                    char datua[50] = "";
-                    SDL_strlcpy(datua, inputAktiboa->inputText, 50);
-                    strlen = SDL_strlcat(datua, ", \n", 50);
-                    SDL_Log("%s", datua);
-                    idatziFitxategian("fitxategia.txt", datua);
-                    SDL_strlcpy(inputAktiboa->inputText, "", 250);
-                    inputMarraztu(gRenderer, inputAktiboa);
-                }
+                                }
                 break;
 
             case SDL_MOUSEBUTTONDOWN:
@@ -205,11 +193,25 @@ int pantailaHasi()
                 {
                     int index;
                     // handleInputSelected(&ebentua, inputAktiboa, gRenderer);
-                    index = searchSelectedInput(&ebentua, inputAktiboa, inputak, 4, gRenderer);
-                    if (index < 4)
+                    index = searchSelectedInput(&ebentua, inputAktiboa, inputak, zenbatInput, gRenderer);
+                    if (index >= 0)
                     {
                         inputAktiboa = &inputak[index];
                     }
+                };
+                int submit = handleSubmitButton(&ebentua);
+                if (submit && inputAktiboa != NULL)
+                {
+                    SDL_Log("Enter");
+                    int strlen = 0;
+                    char datua[50] = "";
+                    SDL_strlcpy(datua, inputak[0].inputText, 50);
+                    strlen = SDL_strlcat(datua, ", ", 50);
+                    strlen = SDL_strlcat(datua, inputak[1].inputText, 50);
+                    strlen = SDL_strlcat(datua, "\n", 50);
+                    SDL_Log("%s", datua);
+                    idatziFitxategian("fitxategia.txt", datua);
+                    inputakGarbitu(inputak, zenbatInput, gRenderer);
                 }
                 break;
 
@@ -224,7 +226,7 @@ int pantailaHasi()
                 if (ebentua.window.event == SDL_WINDOWEVENT_EXPOSED)
                 {
                     refrescarpagina(0);
-                    inputMarraztu(gRenderer, inputAktiboa);
+                    inputakMarraztu(gRenderer, inputak, zenbatInput);
                 }
                 break;
 
@@ -383,8 +385,6 @@ void refrescarpagina(int zeregin)
 
     SDL_RenderDrawLine(gRenderer, 20, 20, 70, 70);
     SDL_RenderPresent(gRenderer);
-
-    inputMarraztu(gRenderer, inputAktiboa);
     Irudiakjarri(zeregin);
     if (menuairekita)
     {
@@ -400,7 +400,8 @@ void refrescarpagina(int zeregin)
     SDL_Color kolor = {0x00, 0x00, 0x00};
     tituluaIdatzi("FRESHKEEP", kolor, Ventana, "(Titulo)ChauPhilomeneOne-Regular.ttf");
     Irudiakjarri(zeregin);
-    inputakMarraztu(gRenderer, inputak, 4);
+    inputakZentratu(inputak, zenbatInput, gRenderer, Ventana);
+    drawSubmitButton(gRenderer);
 }
 
 /* if (Ventana == NULL)
