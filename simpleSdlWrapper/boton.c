@@ -4,7 +4,7 @@
 #include <SDL_ttf.h>
 #include <stdio.h>
 
-Button submit = {{900, 600, 115, 55}, {225, 255, 198, SDL_ALPHA_OPAQUE}, 0};
+Button submit = {{900, 500, 115, 55}, {225, 255, 198, SDL_ALPHA_OPAQUE}, 0};
 
 void drawButton(SDL_Renderer *gRenderer, Button *button)
 {
@@ -60,4 +60,11 @@ int handleSubmitButton(SDL_Event *ebentua)
         }
     }
     return sakatuta;
+}
+void submiteguneratu(SDL_Window *Ventana, int menuairekita, int zerjarri, int pantailarentamaina)
+{
+    if ((menuairekita) && (zerjarri == 2))
+    {
+        submit.rect.x = pantailarentamaina - 378;
+    }
 }

@@ -1,4 +1,5 @@
 // Esto con un incude de include
+#include "input.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -125,4 +126,59 @@ void laukiaMarraztu(SDL_Renderer *gRenderer, int x, int y, int pw, int ph, SDL_C
     SDL_DestroyTexture(textTexture);
     SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
     SDL_RenderDrawRect(gRenderer, &laukia);
+}
+void aldatuatala(SDL_Renderer *gRenderer, SDL_Color NorGaraKolorea, TTF_Font *font, int screenWidth, int zerjarri,
+                 SDL_Window *Ventana, Input inputak[], int zenbatInput)
+{
+    if (zerjarri == 0)
+    {
+        irudiaMugitu(4, -2000, 200);
+        irudiaMugitu(5, -2000, 200);
+        irudiaMugitu(6, -2000, 200);
+        irudiaMugitu(7, -2000, 200);
+        irudiaMugitu(8, -2000, 200);
+        irudiaMugitu(9, -2000, 200);
+
+        inputak[0].inputBox.x = -2000;
+        inputak[1].inputBox.x = -2000;
+    }
+    else if (zerjarri == 1)
+    {
+        irudiaMugitu(4, -2000, 200);
+        irudiaMugitu(5, -2000, 200);
+        irudiaMugitu(6, -2000, 200);
+        irudiaMugitu(7, -2000, 200);
+        irudiaMugitu(8, -2000, 200);
+        irudiaMugitu(9, -2000, 200);
+
+        laukiaMarraztu(gRenderer, 250, 200, (screenWidth - 500), 500, NorGaraKolorea, font, "");
+
+        inputak[0].inputBox.x = -2000;
+        inputak[1].inputBox.x = -2000;
+    }
+    else if (zerjarri == 2)
+    {
+        irudiaMugitu(4, -2000, 200);
+        irudiaMugitu(5, -2000, 200);
+        irudiaMugitu(6, -2000, 200);
+        irudiaMugitu(7, -2000, 200);
+        irudiaMugitu(8, -2000, 200);
+        irudiaMugitu(9, -2000, 200);
+
+        laukiaMarraztu(gRenderer, 230, 200, (screenWidth - 460), 500, NorGaraKolorea, font, "");
+
+        inputakZentratu(inputak, zenbatInput, gRenderer, Ventana);
+        submiteguneratu(Ventana, 1, zerjarri, screenWidth);
+        drawSubmitButton(gRenderer);
+    }
+    else if (zerjarri == 3)
+    {
+        inputak[0].inputBox.x = -2000;
+        inputak[1].inputBox.x = -2000;
+
+        irudiaMugitu(4, 200, 200);
+        irudiaMugitu(5, 450, 200);
+        irudiaMugitu(6, 700, 200);
+        irudiaMugitu(7, 950, 200);
+    }
 }

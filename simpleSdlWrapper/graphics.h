@@ -1,5 +1,6 @@
 #ifndef GRAPHICS_H
 #define GRAPHICS_H
+#include "input.h"
 #include <SDL.h>
 #include <SDL_ttf.h>
 
@@ -18,6 +19,8 @@ void laukiaMarraztu(SDL_Renderer *gRenderer, int x, int y, int pw, int ph, SDL_C
                     const char *texto);
 
 int irudiaMarraztu(SDL_Texture *texture, SDL_Rect *pDest);
+void aldatuatala(SDL_Renderer *gRenderer, SDL_Color NorGaraKolorea, TTF_Font *font, int screenWidth, int zerjarri,
+                 SDL_Window *Ventana, Input inputak[], int zenbatInput);
 
 SDL_Renderer *getRenderer(void);
 
