@@ -6,6 +6,8 @@ void inputMarraztu(SDL_Renderer *gRenderer, Input *input);
 int handleInputSelected(SDL_Event *ebentua, Input *input, SDL_Renderer *gRenderer);
 void inputakMarraztu(SDL_Renderer *gRenderer, Input inputak[], int zenbat);
 int searchSelectedInput(SDL_Event *ebentua, Input *selektedInput, Input inputak[], int zenbat, SDL_Renderer *gRenderer);
+void inputakGarbitu(Input inputak[], int zenbat, SDL_Renderer *gRenderer);
+void inputakZentratu(Input inputak[], int zenbat, SDL_Renderer *gRenderer, SDL_Window *Ventana);
 
 // Input inputak[10];
 // Input Produktua = {{600, 200, 180, 50}, "", 0};
@@ -13,7 +15,15 @@ int searchSelectedInput(SDL_Event *ebentua, Input *selektedInput, Input inputak[
 void inputMarraztu(SDL_Renderer *gRenderer, Input *input)
 {
     SDL_Color kolor = {0x00, 0x00, 0x00};
-    SDL_Log("%s", &input->inputBox);
+    TTF_Font *font = 0;
+    TTF_Init();
+    font = TTF_OpenFontIndex("OpenSans-Regular.ttf", 30, 0);
+    SDL_Surface *textSurface = TTF_RenderText_Blended(font, input->title, kolor); // Color del texto (negro)
+    SDL_Texture *textTexture = SDL_CreateTextureFromSurface(gRenderer, textSurface);
+    SDL_Rect textRect = {input->inputBox.x - textSurface->w - 20, input->inputBox.y, textSurface->w, textSurface->h};
+    SDL_RenderCopy(gRenderer, textTexture, NULL, &textRect);
+    TTF_CloseFont(font);
+
     SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
     SDL_RenderFillRect(gRenderer, &input->inputBox);
     SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
@@ -67,7 +77,7 @@ int handleInputSelected(SDL_Event *ebentua, Input *input, SDL_Renderer *gRendere
 
 void inputakMarraztu(SDL_Renderer *gRenderer, Input inputak[], int zenbat)
 {
-    for (int i; i < zenbat; i++)
+    for (int i = 0; i < zenbat; i++)
     {
         inputMarraztu(gRenderer, &inputak[i]);
     }
@@ -75,11 +85,37 @@ void inputakMarraztu(SDL_Renderer *gRenderer, Input inputak[], int zenbat)
 
 int searchSelectedInput(SDL_Event *ebentua, Input *selektedInput, Input inputak[], int zenbat, SDL_Renderer *gRenderer)
 {
-    int aurkituta = 0, i = 0;
-    while (i < zenbat && !aurkituta)
+    int aurkituta = 0, indexa = -1;
+    for (int i = 0; i < zenbat; i++)
     {
         aurkituta = handleInputSelected(ebentua, &inputak[i], gRenderer);
-        i++;
+        if (aurkituta)
+        {
+            indexa = i;
+        }
     }
-    return i - 1;
+    return indexa;
+}
+
+void inputakGarbitu(Input inputak[], int zenbat, SDL_Renderer *gRenderer)
+{
+    for (int i = 0; i < zenbat; i++)
+    {
+        SDL_strlcpy(&inputak[i].inputText, "", 13);
+        inputMarraztu(gRenderer, &inputak[i]);
+    }
+}
+
+void inputakZentratu(Input inputak[], int zenbat, SDL_Renderer *gRenderer, SDL_Window *Ventana)
+{
+    int windowH, windowW, x;
+    SDL_GetWindowSize(Ventana, &windowW, NULL);
+    x = windowW / 2;
+
+    for (int i = 0; i < zenbat; i++)
+    {
+        inputak[i].inputBox.x = x;
+        SDL_strlcpy(&inputak[i].inputText, "", 13);
+        inputMarraztu(gRenderer, &inputak[i]);
+    }
 }
