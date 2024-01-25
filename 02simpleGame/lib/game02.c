@@ -25,6 +25,12 @@
 #define BERDEILUNA "./img/MugitzenDena.bmp"
 #define SOINUAPIZTUTA "./img/soinuapiztu.bmp"
 #define SOINUAITZALITA "./img/soinuaitzali.bmp"
+#define PERFILMARKEL "./img/Perfil_Markel.bmp"
+#define PERFILMIKEL "./img/Perfil_Mikel.bmp"
+#define PERFILIZARO "./img/Perfil_Izaro.bmp"
+#define PERFILNEREA "./img/Perfil_Nerea.bmp"
+#define TESTUAHORIZONTAL "./img/TESTUA_NORGARA_HORIZONTALA.bmp"
+#define TESTUABERTIKAL "./img/TESTUA_NORGARA_BERTIKALA.bmp"
 
 #include <SDL.h>
 #include <SDL_ttf.h>
@@ -32,7 +38,7 @@
 
 int pantailaHasi();
 int Irudiakjarri(int zeregin);
-void refrescarpagina(int zeregin);
+void refrescarpagina(int zeregin, int zerjarri);
 void idatziFitxategian(char izena[], char testua[]);
 
 char inputText[250] = "";
@@ -49,12 +55,10 @@ Button Soinua_Botoia = {{1460, 3, 50, 50}, {255, 0, 0, 255}, 0};
 Button Hasiera_Botoia = {{10, 100, 160, 50}, {255, 0, 0, 255}, 0};
 Button ListaOsoa_Botoia = {{10, 180, 160, 50}, {255, 0, 0, 255}, 0};
 Button Gehitu_Botoia = {{10, 260, 160, 50}, {255, 0, 0, 255}, 0};
-Button Osasuna_Botoia = {{10, 340, 160, 50}, {255, 0, 0, 255}, 0};
-Button Donazioa_Botoia = {{10, 420, 160, 50}, {255, 0, 0, 255}, 0};
-Button NorGara_Botoia = {{10, 500, 160, 50}, {255, 0, 0, 255}, 0};
+Button NorGara_Botoia = {{10, 340, 160, 50}, {255, 0, 0, 255}, 0};
 Button Idatzi_Botoia = {{600, 100, 180, 50}, {255, 0, 0, 255}, 0}; // 300
 
-Input inputak[10] = {{{400, 350, 180, 50}, "", 0, "Produktua"}, {{400, 450, 180, 50}, "", 0, "Iraungitze data"}};
+Input inputak[10] = {{{400, 250, 180, 50}, "", 0, "Produktua"}, {{400, 350, 180, 50}, "", 0, "Iraungitze data"}};
 int zenbatInput = 2;
 Input *inputAktiboa = &inputak[0];
 
@@ -68,6 +72,8 @@ int menuairekita = 0;
 int zeregin = 0;
 int nuevoscreenWidth;
 int nuevoscreenHeigth;
+int zerjarri = 0;
+int botoiabehinklikatu = 0;
 
 char produktuak[100][15];
 char datak[100][3][5];
@@ -97,7 +103,7 @@ int pantailaHasi()
     SDL_RenderDrawLine(gRenderer, 20, 20, 70, 70);
     SDL_Color kolor = {0x00, 0x00, 0x00};
 
-    kopuru = Irudiakjarri(0);
+    kopuru = Irudiakjarri(0, screenWidth);
 
     // soinua
     audioInit();
@@ -121,11 +127,6 @@ int pantailaHasi()
                 {
                     SDL_SetWindowFullscreen(Ventana, 0); // Ponemos fin a true para salir del bucle
                 }
-                else if (ebentua.key.keysym.sym == TECLA_2)
-                {
-                    char a[100][100];
-                    irakurri("fitxategia.txt", produktuak, datak);
-                }
 
                 else if (ebentua.key.keysym.sym == SDLK_BACKSPACE)
                 {
@@ -146,8 +147,6 @@ int pantailaHasi()
                 handleMouseClick(&ebentua, &Hasiera_Botoia);
                 handleMouseClick(&ebentua, &ListaOsoa_Botoia);
                 handleMouseClick(&ebentua, &Gehitu_Botoia);
-                handleMouseClick(&ebentua, &Osasuna_Botoia);
-                handleMouseClick(&ebentua, &Donazioa_Botoia);
                 handleMouseClick(&ebentua, &NorGara_Botoia);
                 if (inputAktiboa != NULL)
                 {
@@ -169,6 +168,7 @@ int pantailaHasi()
                     strlen = SDL_strlcat(datua, ", ", 50);
                     strlen = SDL_strlcat(datua, inputak[1].inputText, 50);
                     strlen = SDL_strlcat(datua, "\n", 50);
+                    SDL_Log("%s", datua);
                     idatziFitxategian("fitxategia.txt", datua);
                     zenbatProduktu = irakurri("fitxategia.txt", produktuak, datak);
                     datakOrdenatu(datak, produktuak, zenbatProduktu);
@@ -197,7 +197,7 @@ int pantailaHasi()
                     }
                     SDL_SetWindowSize(Ventana, screenWidth, screenHeight);
                     Soinua_Botoia.rect.x = screenWidth - 61;
-                    refrescarpagina(0);
+                    refrescarpagina(0, zerjarri);
                     inputakMarraztu(gRenderer, inputak, zenbatInput);
                 }
                 break;
@@ -219,13 +219,7 @@ int pantailaHasi()
                 /*tics = SDL_GetTicks();*/
                 irudiaMugitubateskuinera(0);
                 irudiaMugitubateskuinera(1);
-                refrescarpagina(1);
-                drawButton(gRenderer, &Hasiera_Botoia);
-                drawButton(gRenderer, &ListaOsoa_Botoia);
-                drawButton(gRenderer, &Gehitu_Botoia);
-                drawButton(gRenderer, &Osasuna_Botoia);
-                drawButton(gRenderer, &Donazioa_Botoia);
-                drawButton(gRenderer, &NorGara_Botoia);
+                refrescarpagina(1, zerjarri);
             }
             else
             {
@@ -234,7 +228,7 @@ int pantailaHasi()
                 /*tics = SDL_GetTicks();*/
                 irudiaMugitubatezkerrera(0);
                 irudiaMugitubatezkerrera(1);
-                refrescarpagina(1);
+                refrescarpagina(1, zerjarri);
             }
 
             // Resetear la variable isClicked después de procesar el clic
@@ -250,7 +244,7 @@ int pantailaHasi()
                 irudiaMugitu(3, 1150, 1);
                 irudiaMugitu(2, 3000, 0);
                 soinuapiztutadago = 0;
-                refrescarpagina(2);
+                refrescarpagina(2, zerjarri);
             }
             else
             {
@@ -258,41 +252,71 @@ int pantailaHasi()
                 irudiaMugitu(2, 1150, 1);
                 irudiaMugitu(3, 3000, 0);
                 soinuapiztutadago = 1;
-                refrescarpagina(2);
+                refrescarpagina(2, zerjarri);
             }
             Soinua_Botoia.isClicked = 0;
         }
-        if (NorGara_Botoia.isClicked)
+        if (Hasiera_Botoia.isClicked)
         {
-            laukiaMarraztu(gRenderer, 200, 500, 300, 60, NorGaraKolorea, font, "Markel Gomez");
-            laukiaMarraztu(gRenderer, 535, 500, 300, 60, NorGaraKolorea, font, "Nerea Soares");
-            laukiaMarraztu(gRenderer, 865, 500, 300, 60, NorGaraKolorea, font, "Mikel Landa");
-            laukiaMarraztu(gRenderer, 1200, 500, 300, 60, NorGaraKolorea, font, "Izaro Matxain");
+            zerjarri = 0;
+            refrescarpagina(0, zerjarri);
+            aldatuatala(gRenderer, NorGaraKolorea, font, screenWidth, zerjarri, Ventana, inputak, zenbatInput);
+            SDL_RenderPresent(gRenderer);
+            Hasiera_Botoia.isClicked = 0;
         }
         if (ListaOsoa_Botoia.isClicked)
         {
-
-            laukiaMarraztu(gRenderer, 250, 200, (screenWidth - 500), 500, NorGaraKolorea, font, "");
+            zerjarri = 1;
+            refrescarpagina(0, zerjarri);
+            aldatuatala(gRenderer, NorGaraKolorea, font, screenWidth, zerjarri, Ventana, inputak, zenbatInput);
+            SDL_RenderPresent(gRenderer);
+            ListaOsoa_Botoia.isClicked = 0;
         }
+        if (Gehitu_Botoia.isClicked)
+        {
+            zerjarri = 2;
+            refrescarpagina(0, zerjarri);
+            Gehitu_Botoia.isClicked = 0;
+        }
+        if (NorGara_Botoia.isClicked)
+        {
+            zerjarri = 3;
+            refrescarpagina(0, zerjarri);
+            NorGara_Botoia.isClicked = 0;
+        }
+
         SDL_RenderPresent(gRenderer);
     }
     return 0;
 }
 
-int Irudiakjarri(int zeregin)
+int Irudiakjarri(int zeregin, int pantailarentamaina)
 {
     int id = -1;
 
     if (lehenengoaldia)
     {
-        id = irudiaKargatu(BERDEILUNA);     // 0
-        id = irudiaKargatu(HOSTOA_IMG);     // 1
-        id = irudiaKargatu(SOINUAPIZTUTA);  // 2
-        id = irudiaKargatu(SOINUAITZALITA); // 3
+        id = irudiaKargatu(BERDEILUNA);       // 0
+        id = irudiaKargatu(HOSTOA_IMG);       // 1
+        id = irudiaKargatu(SOINUAPIZTUTA);    // 2
+        id = irudiaKargatu(SOINUAITZALITA);   // 3
+        id = irudiaKargatu(PERFILMARKEL);     // 4
+        id = irudiaKargatu(PERFILMIKEL);      // 5
+        id = irudiaKargatu(PERFILIZARO);      // 6
+        id = irudiaKargatu(PERFILNEREA);      // 7
+        id = irudiaKargatu(TESTUAHORIZONTAL); // 8
+        id = irudiaKargatu(TESTUABERTIKAL);   // 9
         irudiaMugitu(0, -327, 0);
         irudiaMugitu(1, 6, 1);
-        irudiaMugitu(2, 1150, 3);
+        irudiaMugitu(2, pantailarentamaina - 75, 3);
         irudiaMugitu(3, -1150, 5);
+        irudiaMugitu(4, -2000, 200);
+        irudiaMugitu(5, -2000, 200);
+        irudiaMugitu(6, -2000, 200);
+        irudiaMugitu(7, -2000, 200);
+        irudiaMugitu(8, -2000, 200);
+        irudiaMugitu(9, -2000, 200);
+
         lehenengoaldia = 0;
     }
     if ((zeregin == 0) || (zeregin == 1))
@@ -316,16 +340,31 @@ int Irudiakjarri(int zeregin)
     {
         if (!soinuapiztutadago)
         {
-            irudiaMugitu(2, -1150, 3);
-            irudiaMugitu(3, 1150, 3);
+            irudiaMugituPantailarekinEzkerrerantz(3, Ventana);
         }
         else if (soinuapiztutadago)
         {
-            irudiaMugitu(2, 1150, 3);
-            irudiaMugitu(3, -1150, 3);
+            irudiaMugituPantailarekinEzkerrerantz(2, Ventana);
         }
     }
-
+    if ((zerjarri == 3) && (pantailarentamaina > 1200))
+    {
+        irudiaMugitu(4, 200, 200);
+        irudiaMugitu(5, 450, 200);
+        irudiaMugitu(6, 700, 200);
+        irudiaMugitu(7, 950, 200);
+        irudiaMugitu(8, (pantailarentamaina / 2) - 325, 475);
+        irudiaMugitu(9, -2000, 175);
+    }
+    else if ((zerjarri == 3) && (pantailarentamaina > 600))
+    {
+        irudiaMugitu(4, 200, 200);
+        irudiaMugitu(5, 200, 450);
+        irudiaMugitu(6, 450, 200);
+        irudiaMugitu(7, 450, 450);
+        irudiaMugitu(8, -2000, 550);
+        irudiaMugitu(9, pantailarentamaina - 305, 220);
+    }
     if (soinuapiztutadago)
     {
         irudiaMugituPantailarekinEzkerrerantz(2, Ventana);
@@ -340,7 +379,7 @@ int Irudiakjarri(int zeregin)
     return id;
 }
 
-void refrescarpagina(int zeregin)
+void refrescarpagina(int zeregin, int zerjarri)
 {
     SDL_GetWindowSize(Ventana, &screenWidth, &screenHeight);
     SDL_Log("h: %d, w: %d", screenHeight, screenWidth);
@@ -348,53 +387,20 @@ void refrescarpagina(int zeregin)
     SDL_SetRenderDrawColor(gRenderer, 225, 255, 198, SDL_ALPHA_OPAQUE);
     SDL_Rect background = {0, 0, screenWidth, screenHeight};
     SDL_RenderFillRect(gRenderer, &background);
-
+    aldatuatala(gRenderer, NorGaraKolorea, font, screenWidth, zerjarri, Ventana, inputak, zenbatInput);
     SDL_RenderDrawLine(gRenderer, 20, 20, 70, 70);
     SDL_RenderPresent(gRenderer);
-    Irudiakjarri(zeregin);
+
+    SDL_Color kolor = {0x00, 0x00, 0x00};
+    tituluaIdatzi("FRESHKEEP", kolor, Ventana, "(Titulo)ChauPhilomeneOne-Regular.ttf");
+    Irudiakjarri(zeregin, screenWidth);
     if (menuairekita)
     {
         laukiaMarraztu(gRenderer, 10, 100, 160, 50, laukizuzenarenKolorea, font, "Hasiera");
         laukiaMarraztu(gRenderer, 10, 180, 160, 50, laukizuzenarenKolorea, font, "Lista osoa");
         laukiaMarraztu(gRenderer, 10, 260, 160, 50, laukizuzenarenKolorea, font, "Gehitu");
-        laukiaMarraztu(gRenderer, 10, 340, 160, 50, laukizuzenarenKolorea, font, "Osasuna");
-        laukiaMarraztu(gRenderer, 10, 420, 160, 50, laukizuzenarenKolorea, font, "Donazioa");
-        laukiaMarraztu(gRenderer, 10, 500, 160, 50, laukizuzenarenKolorea, font, "Nor gara");
+        laukiaMarraztu(gRenderer, 10, 340, 160, 50, laukizuzenarenKolorea, font, "Nor gara");
         SDL_RenderPresent(gRenderer);
     }
-
-    SDL_Color kolor = {0x00, 0x00, 0x00};
-    tituluaIdatzi("FRESHKEEP", kolor, Ventana, "(Titulo)ChauPhilomeneOne-Regular.ttf");
-    Irudiakjarri(zeregin);
-    inputakZentratu(inputak, zenbatInput, gRenderer, Ventana);
-    drawSubmitButton(gRenderer);
+    submiteguneratu(Ventana, menuairekita, zerjarri, screenWidth);
 }
-
-/* if (Ventana == NULL)
-        {
-            printf("ERROR: No se pudo crear la ventana, SDL_Error: %s\n", SDL_GetError());
-        }
-        else
-        {
-            // Se crea la superficie para la ventana principal
-            Superficie = SDL_GetWindowSurface(Ventana);
-
-            // Se actualiza la superficie
-            SDL_UpdateWindowSurface(Ventana);
-        }*/
-
-// Testua
-/*TTF_Init();
-SDL_Texture *texture;
-TTF_Font *letra = TTF_OpenFont("../Debug/OpenSans-Regular.ttf", 28);
-SDL_Color kolorea = {0, 0, 0};
-SDL_Surface *testuarenAzalera = TTF_RenderText_Solid(letra, "FreshKeep", kolorea);
-texture = SDL_CreateTextureFromSurface(gRenderer, testuarenAzalera);
-src.x = 0;
-dst.x = 0;
-src.y = 0;
-dst.y = 0;
-src.w = dst.w = testuarenAzalera->w;
-src.h = dst.h = testuarenAzalera->h;
-SDL_RenderCopy(gRenderer, texture, &src, &dst);
-SDL_RenderPresent(gRenderer);*/
